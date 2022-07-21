@@ -1,0 +1,173 @@
+@import '~compass-mixins/lib/compass/css3';
+
+$hexagon-color: #ffbc06;
+
+body {
+  background-color: #171d25;
+}
+
+.container {
+  position: relative;
+  @include transition(all .3s ease-out);
+  height: 500px;
+  @include perspective(1200px);
+  z-index: 10;
+  overflow: hidden;
+
+  .honeycomb {
+    display: block;
+    position: absolute;
+    margin-left: -465px;
+    padding-left: 18px;
+    left: 50%;
+    text-align: center;
+    height: 450px;
+    width: 930px;
+    @include transform(rotateX(45deg) rotateY(0deg));
+    @include transform-style(preserve-3d);
+    @include transform-origin(center, 65%);
+    z-index: 5;
+
+    .column {
+      display: block;
+      float: left;
+      width: 62px;
+      transform-style: preserve-3d;
+
+      &:nth-child(even) {
+        margin-top: 36px;
+      }
+    }
+
+    .hex {
+      display: block;
+    }
+
+    .nohex {
+      visibility: hidden;
+    }
+
+    .hex,
+    .nohex {
+      position: relative;
+      float: left;
+      margin: 0;
+      height: 72px;
+      width: 62px;
+      color: #fff;
+      cursor: pointer;
+      text-decoration: none;
+      @include transform-style(preserve-3d);
+      @include transition(all .3s ease-out);
+      @include opacity(0.5);
+
+      &:hover {
+        opacity: 1;
+        @include transform(translateZ(20px));
+        @include transition-duration(200ms);
+
+        .content {
+          @include opacity(1);
+          @include transform(rotateX(-90deg) translateZ(-40px) translateY(-50px));
+        }
+      }
+
+      .wrapper {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+
+        .color-1 {
+          background: $hexagon-color;
+
+          &:before {
+            border-right-color: $hexagon-color;
+          }
+
+          &:after {
+            border-left-color: $hexagon-color;
+          }
+        }
+      }
+
+      .content {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: -80px;
+        text-align: center;
+        width: 200px;
+        @include opacity(0);
+        @include transition(all .3s ease-out .1s);
+        @include transform(rotateX(-90deg) translateZ(-40px) translateY(-40px));
+        pointer-events: none;
+        -webkit-font-smoothing: antialiased;
+
+        strong {
+          display: block;
+          font: 600 26px/1.1 verdana, sans-serif;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          text-shadow: -1px -1px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        small {
+          display: block;
+          font: 15px/1.1 verdana, sans-serif;
+        }
+      }
+    }
+
+    .shadows {
+      display: block;
+      position: absolute;
+      top: -15%;
+      left: -15%;
+      height: 130%;
+      width: 130%;
+      @include background-image(radial-gradient(closest-side, rgba(23, 29, 37, 0), #171d25));
+      @include opacity(0.9);
+      @include transform(translateZ(10px));
+      pointer-events: none;
+    }
+  }
+}
+
+.hexagon {
+  display: block;
+  position: absolute;
+  width: 36px;
+  height: 62px;
+  background-color: #ffffff;
+
+  &:before,
+  &:after {
+    content: "";
+    position: relative;
+    float: left;
+    border-top: 31px solid transparent;
+    border-bottom: 31px solid transparent;
+  }
+
+  &:before {
+    border-right: 18px solid #ffffff;
+    left: -18px;
+  }
+
+  &:after {
+    border-left: 18px solid #ffffff;
+    right: -18px;
+  }
+
+  .aff {
+    z-index: 30;
+  }
+}
+
+.hidden {
+  display: none;
+}
