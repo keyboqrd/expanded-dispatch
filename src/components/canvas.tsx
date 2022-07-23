@@ -1,7 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { Hexagon, HexagonColumn } from './hexagon';
-import { Cell } from './models';
+import { Affiliates } from '../models/affiliate';
+import { COLS, ROWS } from '../models/_index';
+import { HexagonColumn } from './hexagon-column';
+import { Hex, HexParams } from './models';
 
 export class Canvas extends React.Component {
   render() {
@@ -13,37 +14,32 @@ export class Canvas extends React.Component {
   }
 
   renderColumns() {
-    const hexes: Cell[][] = [
-      [Cell.show, Cell.show, Cell.show, Cell.show, Cell.show, Cell.show],
-      [Cell.show, Cell.show, Cell.show, Cell.show, Cell.show, Cell.show],
-      [Cell.none, Cell.show, Cell.show, Cell.show, Cell.show, Cell.show],
-      [Cell.show, Cell.show, Cell.show, Cell.show, Cell.show, Cell.show],
-      [Cell.none, Cell.show, Cell.show, Cell.show, Cell.show, Cell.show],
-      [Cell.show, Cell.show, Cell.show, Cell.show, Cell.show, Cell.show],
-      [Cell.none, Cell.show, Cell.show, Cell.show, Cell.show, Cell.show],
-      [Cell.show, Cell.show, Cell.show, Cell.show, Cell.show, Cell.show],
-      [Cell.none, Cell.show, Cell.show, Cell.show, Cell.show, Cell.show],
-      [Cell.show, Cell.show, Cell.show, Cell.show, Cell.show, Cell.show],
-      [Cell.none, Cell.show, Cell.show, Cell.show, Cell.show, Cell.show],
-      [Cell.show, Cell.show, Cell.show, Cell.show, Cell.show, Cell.show],
-      [Cell.none, Cell.show, Cell.show, Cell.show, Cell.show, Cell.show],
-      [Cell.show, Cell.show, Cell.show, Cell.show, Cell.show, Cell.show],
-      [Cell.none, Cell.show, Cell.show, Cell.none, Cell.show, Cell.wo]
-    ];
 
+
+
+    let params: HexParams[][] = [];
+    for (var i = 0; i < COLS; i++) {
+      params.push([]);
+      for (var j = 0; j < ROWS; j++) {
+        var hexParams: HexParams = { hex: Hex.plain };
+        params[i].push(hexParams);
+      }
+    }
+    var affiliates = new Affiliates();
+    params = affiliates.Fill(params);
 
     return (
       <div className="honeycomb ">
         <>
-          {hexes.map((i, key) => this.renderColumn(i, key))}
+          {params.map((i, key) => this.renderColumn(i, key))}
         </>
         <div className="shadows"></div>
       </div>
     );
   }
-  renderColumn(i: Cell[], key: number) {
+  renderColumn(i: HexParams[], key: number) {
     return (
-      <HexagonColumn key={key} hexes={i} />
+      <HexagonColumn key={key} hexeParams={i} />
     )
   }
   renderAffs() {

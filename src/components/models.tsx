@@ -1,7 +1,7 @@
 
 
 export type ColumnParams = {
-    hexes: Cell[];
+    hexeParams: HexParams[];
 }
 
 export type ColumnStates = {
@@ -9,18 +9,16 @@ export type ColumnStates = {
 };
 
 export type HexParams = {
-    cell: Cell;
-    id: number;
+    hex: Hex;
 }
 
 export type InnerParams = {
-    cell: Cell;
-    id: number
+    hex: Hex;
 }
 
-export enum Cell {
+export enum Hex {
     none = 1,
-    show = 2,
-    wo = 3,
-    aff = 4
+    plain = 2,
+    affed = 3,
+    //aff = 4
 }

@@ -1,6 +1,7 @@
 @import '~compass-mixins/lib/compass/css3';
 
-$hexagon-color: #ffbc06;
+$hexagon-plain-color: #bbbbbb;
+$hexagon-affed-color: #00ff6a;
 
 body {
   background-color: #171d25;
@@ -9,8 +10,8 @@ body {
 .container {
   position: relative;
   @include transition(all .3s ease-out);
-  height: 500px;
-  @include perspective(1200px);
+  height: 700px;
+  //@include perspective(1200px);
   z-index: 10;
   overflow: hidden;
 
@@ -18,14 +19,13 @@ body {
     display: block;
     position: absolute;
     margin-left: -465px;
-    padding-left: 18px;
     left: 50%;
     text-align: center;
-    height: 450px;
+    height: 650px;
     width: 930px;
     @include transform(rotateX(45deg) rotateY(0deg));
     @include transform-style(preserve-3d);
-    @include transform-origin(center, 65%);
+    @include transform-origin(center, 55%);
     z-index: 5;
 
     .column {
@@ -41,14 +41,6 @@ body {
 
     .hex {
       display: block;
-    }
-
-    .nohex {
-      visibility: hidden;
-    }
-
-    .hex,
-    .nohex {
       position: relative;
       float: left;
       margin: 0;
@@ -80,15 +72,27 @@ body {
         height: 100%;
         width: 100%;
 
-        .color-1 {
-          background: $hexagon-color;
+        .color-plain {
+          background: $hexagon-plain-color;
 
           &:before {
-            border-right-color: $hexagon-color;
+            border-right-color: $hexagon-plain-color;
           }
 
           &:after {
-            border-left-color: $hexagon-color;
+            border-left-color: $hexagon-plain-color;
+          }
+        }
+
+        .color-affed {
+          background: $hexagon-affed-color;
+
+          &:before {
+            border-right-color: $hexagon-affed-color;
+          }
+
+          &:after {
+            border-left-color: $hexagon-affed-color;
           }
         }
       }
