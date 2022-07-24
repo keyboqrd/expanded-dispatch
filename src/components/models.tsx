@@ -1,3 +1,6 @@
+import { Dispatch } from "react";
+import { Affiliates } from "../models/affiliate";
+
 export type ColumnStates = {
     count: number; // like this
 };
@@ -6,19 +9,34 @@ export type CanvasParams = {
 
 }
 
+export type CanvasStatus = {
+    curStep: number;
+    affiliates: Affiliates;
+}
+
+export interface IStepTest {
+    curStep: number;
+}
+
 export type HexParams = {
-    type: HexType;
-    affs?: { aff: number, step: number }[];
+    affs: HexAff[];
     affHover(aff: number): any;
 }
 
+export type HexAff = {
+    affId: number;
+    step: number;
+    hexType: HexType;
+}
+
 export type InnerParams = {
-    hex: HexType;
+    affs: HexAff[];
 }
 
 export enum HexType {
     //none = 1,
     plain = 2,
-    affed = 3,
-    aff = 4
+    affCenter = 3,
+    affIllumed = 4,
+    affOthered = 5,
 }

@@ -23,8 +23,9 @@ class Affiliate {
     Radius: number;
     Areas: { p: P, step: number }[];
     Serviced: P[];
+    CurStep: number = 0;
 
-    private calculateAreas(): { p:P, step: number }[] {
+    private calculateAreas(): { p: P, step: number }[] {
         let result: { p: P, step: number }[] = [];
         const r = this.Radius;
         let cursor = 0;
@@ -63,14 +64,14 @@ export class Affiliates {
             new Affiliate({ col: 6, row: 1 }, [Trade.Pool], [], 2)
         );
     }
-    public get affiliates(): Affiliate[] { return this._affiliates; } 
+    public get affiliates(): Affiliate[] { return this._affiliates; }
     private _affiliates: Affiliate[] = [];
 
-    public Fill(params: HexParams[][]) {
-        this._affiliates.forEach((aff, index) => {
+    public fill = (params: HexParams[][]): HexParams[][] => {
+        /*this._affiliates.forEach((aff, index) => {
             aff.Areas.forEach(area => {
                 let p = params[area.p.col][area.p.row];
-                p.type = HexType.affed;
+                p.type = HexType.affIllumed;
                 let current = { aff: index, step: area.step };
                 if (p.affs === undefined) {
                     p.affs = [current]
@@ -78,11 +79,27 @@ export class Affiliates {
                     p.affs.push(current);
                 }
             })
-        });
-        this._affiliates.forEach((aff, index) => { 
-            params[aff.Center.col][aff.Center.row].type = HexType.aff;
-            params[aff.Center.col][aff.Center.row].affs = [{ aff: index, step: 0 }];
+        });*/
+        this._affiliates.forEach((aff, index) => {
+
+            params[aff.Center.col][aff.Center.row].affs = [{ affId: index, step: 0, hexType: HexType.affCenter }];
+            if (aff.CurStep !== 0) {
+                aff.Areas.forEach(area => {
+                    let col = area.p.col;
+                    let row = area.p.row;
+                    let step = area.step;
+                    if (area.step === aff.CurStep) {
+                        params[col][row].affs.push({ affId: index, step: step, hexType: HexType.affIllumed });
+                    } else {
+                        params[col][row].affs.push({ affId: index, step: step, hexType: HexType.affOthered });
+                    }
+                });
+            }
         });
         return params;
+    }
+
+    public update = (affId: number, curStep: number) => {
+        this._affiliates[affId].CurStep = curStep;
     }
 }

@@ -3,7 +3,7 @@
 
 $hexagon-plain-color: #bbbbbb;
 $hexagon-affed-color: #00ff6a;
-$hexagon-aff-colors:#ffbc06, #00ff6a, #00d9ff, #ff00b7;
+$hexagon-aff-colors: #ffbc06, #00ff6a, #00d9ff, #ff00b7;
 
 body {
   background-color: #171d25;
@@ -55,6 +55,10 @@ body {
       @include transition(all .3s ease-out);
       @include opacity(0.5);
 
+      &div[class^="hex-aff-"] {
+        @include opacity(0.75);
+      }
+
       &:hover {
         opacity: 1;
         @include transform(translateZ(20px));
@@ -74,24 +78,31 @@ body {
         height: 100%;
         width: 100%;
 
-        .hex-color-plain, div[class*="hex-affiliate-"] {
+        .hex-color-plain {
           background: $hexagon-plain-color;
+
           &:before {
             border-right-color: $hexagon-plain-color;
           }
+
           &:after {
             border-left-color: $hexagon-plain-color;
           }
         }
 
-        @for $i from 1 through 4{
-          .hex-aff-center-#{$i}{
-            background: list.nth($hexagon-aff-colors, $i);
+        @for $i from 0 through 3 {
+
+          .hex-aff-center-#{$i},
+          .hex-aff-#{$i}-illumed,
+          .hex-aff-#{$i}-othered {
+            background: list.nth($hexagon-aff-colors, $i + 1);
+
             &:before {
-              border-right-color: list.nth($hexagon-aff-colors, $i);
+              border-right-color: list.nth($hexagon-aff-colors, $i + 1);
             }
+
             &:after {
-              border-left-color: list.nth($hexagon-aff-colors, $i);
+              border-left-color: list.nth($hexagon-aff-colors, $i + 1);
             }
           }
         }

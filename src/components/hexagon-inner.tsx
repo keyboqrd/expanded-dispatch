@@ -1,23 +1,33 @@
 import React from "react";
-import { HexType, InnerParams } from "./models";
+import { HexAff, HexType, InnerParams } from "./models";
 
 export class HexagonInner extends React.Component<InnerParams>{
     render(): React.ReactNode {
-        if (this.props.hex === HexType.plain) {
+        return (
+            <span className="content">
+                <>
+                    {this.props.affs.map(aff =>
+                        this.getContent(aff)
+                    )}
+                </>
+            </span>
+        );
+    }
+    private getContent = (aff: HexAff) => {
+        if (aff.hexType === HexType.plain) {
             return (
-                <span className="content">
+                <>
                     <strong>Hello!</strong>
                     <small>"ddduh"</small>
-                </span>
-            );
+                </>);
         }
-        if (this.props.hex === HexType.affed) {
+        if (aff.hexType === HexType.affCenter) {
             return (
-                <span className="content">
-                    999999999999999999999
-                </span>
-            );
+                <>
+                    <strong>Affiliate</strong>
+                    <small>{aff.affId}</small>
+                </>);
         }
-
     }
+
 }
