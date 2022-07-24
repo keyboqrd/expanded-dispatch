@@ -55,7 +55,6 @@ export class Canvas extends React.Component<CanvasParams> {
   private affHover(affId: number) {
     const aff = this.affiliates.affiliates[affId];
     console.log(aff);
-    
   }
   renderAffs() {
 
