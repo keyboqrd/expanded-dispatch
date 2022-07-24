@@ -1,24 +1,24 @@
-
-
-export type ColumnParams = {
-    hexeParams: HexParams[];
-}
-
 export type ColumnStates = {
     count: number; // like this
 };
 
+export type CanvasParams = {
+
+}
+
 export type HexParams = {
-    hex: Hex;
+    type: HexType;
+    affs?: { aff: number, step: number }[];
+    affHover(aff: number): any;
 }
 
 export type InnerParams = {
-    hex: Hex;
+    hex: HexType;
 }
 
-export enum Hex {
-    none = 1,
+export enum HexType {
+    //none = 1,
     plain = 2,
     affed = 3,
-    //aff = 4
+    aff = 4
 }

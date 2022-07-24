@@ -1,4 +1,4 @@
-import { Hex, HexParams } from "../components/models";
+import { HexType, HexParams } from "../components/models";
 import { Trade, P, Dir1, Dir2 } from "./types";
 import { Utils } from "./utils";
 
@@ -21,10 +21,10 @@ class Affiliate {
     Center: P;
     Trades: Trade[];
     Radius: number;
-    Areas: P[];
+    Areas: { p: P, step: number }[];
     Serviced: P[];
 
-    private calculateAreas(): P[] {
+    private calculateAreas(): { p:P, step: number }[] {
         let result: { p: P, step: number }[] = [];
         const r = this.Radius;
         let cursor = 0;
@@ -41,7 +41,7 @@ class Affiliate {
                     Utils.move(i.p, Dir1.U, Dir2.L),
                 ];
                 nexts.forEach(next => {
-                    if (next != undefined
+                    if (next !== undefined
                         && !result.some(x => x.p.col === next.col && x.p.row === next.row))
                         result.push({ p: next, step: i.step + 1 });
                 });
@@ -49,25 +49,39 @@ class Affiliate {
             cursor++;
         }
 
-        return result.map(i => i.p);
+        return result;
     }
 
 }
 
 export class Affiliates {
     constructor() {
-        this.affiliates.push(
-            new Affiliate({ col: 3, row: 3 }, [Trade.HVAC], []),
-            new Affiliate({ col: 11, row: 6 }, [Trade.Flooring], []),
+        this._affiliates.push(
+            new Affiliate({ col: 3, row: 3 }, [Trade.HVAC], [], 3),
+            new Affiliate({ col: 9, row: 6 }, [Trade.Flooring], [], 4),
+            new Affiliate({ col: 12, row: 2 }, [Trade.Pool], [], 3),
+            new Affiliate({ col: 6, row: 1 }, [Trade.Pool], [], 2)
         );
     }
+    public get affiliates(): Affiliate[] { return this._affiliates; } 
+    private _affiliates: Affiliate[] = [];
 
-    private affiliates: Affiliate[] = [];
     public Fill(params: HexParams[][]) {
-        this.affiliates.forEach(aff => {
-            aff.Areas.forEach(p => {
-                params[p.col][p.row].hex = Hex.affed;
+        this._affiliates.forEach((aff, index) => {
+            aff.Areas.forEach(area => {
+                let p = params[area.p.col][area.p.row];
+                p.type = HexType.affed;
+                let current = { aff: index, step: area.step };
+                if (p.affs === undefined) {
+                    p.affs = [current]
+                } else {
+                    p.affs.push(current);
+                }
             })
+        });
+        this._affiliates.forEach((aff, index) => { 
+            params[aff.Center.col][aff.Center.row].type = HexType.aff;
+            params[aff.Center.col][aff.Center.row].affs = [{ aff: index, step: 0 }];
         });
         return params;
     }

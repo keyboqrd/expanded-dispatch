@@ -1,9 +1,9 @@
 import React from "react";
-import { Hex, InnerParams } from "./models";
+import { HexType, InnerParams } from "./models";
 
 export class HexagonInner extends React.Component<InnerParams>{
     render(): React.ReactNode {
-        if (this.props.hex === Hex.plain) {
+        if (this.props.hex === HexType.plain) {
             return (
                 <span className="content">
                     <strong>Hello!</strong>
@@ -11,7 +11,7 @@ export class HexagonInner extends React.Component<InnerParams>{
                 </span>
             );
         }
-        if (this.props.hex === Hex.affed) {
+        if (this.props.hex === HexType.affed) {
             return (
                 <span className="content">
                     999999999999999999999

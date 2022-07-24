@@ -1,7 +1,9 @@
+@use "sass:list";
 @import '~compass-mixins/lib/compass/css3';
 
 $hexagon-plain-color: #bbbbbb;
 $hexagon-affed-color: #00ff6a;
+$hexagon-aff-colors:#ffbc06, #00ff6a, #00d9ff, #ff00b7;
 
 body {
   background-color: #171d25;
@@ -11,7 +13,7 @@ body {
   position: relative;
   @include transition(all .3s ease-out);
   height: 700px;
-  //@include perspective(1200px);
+  @include perspective(1200px);
   z-index: 10;
   overflow: hidden;
 
@@ -72,27 +74,25 @@ body {
         height: 100%;
         width: 100%;
 
-        .color-plain {
+        .hex-color-plain, div[class*="hex-affiliate-"] {
           background: $hexagon-plain-color;
-
           &:before {
             border-right-color: $hexagon-plain-color;
           }
-
           &:after {
             border-left-color: $hexagon-plain-color;
           }
         }
 
-        .color-affed {
-          background: $hexagon-affed-color;
-
-          &:before {
-            border-right-color: $hexagon-affed-color;
-          }
-
-          &:after {
-            border-left-color: $hexagon-affed-color;
+        @for $i from 1 through 4{
+          .hex-aff-center-#{$i}{
+            background: list.nth($hexagon-aff-colors, $i);
+            &:before {
+              border-right-color: list.nth($hexagon-aff-colors, $i);
+            }
+            &:after {
+              border-left-color: list.nth($hexagon-aff-colors, $i);
+            }
           }
         }
       }

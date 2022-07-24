@@ -2,7 +2,7 @@ import { COLS, ROWS } from "./consts";
 import { P, Dir1, Dir2 } from "./types";
 
 export abstract class Utils {
-    public static move(p: P, dir1: Dir1, dir2: Dir2 | undefined): P | undefined {
+    public static move(p: P, dir1: Dir1, dir2?: Dir2): P | undefined {
         let col = p.col;
         let row = p.row;
         if (dir2 === undefined) {
