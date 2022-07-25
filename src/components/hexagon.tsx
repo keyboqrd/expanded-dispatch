@@ -40,10 +40,10 @@ export class Hexagon extends React.Component<HexParams>{
                     result += `hex-aff-center-${this.props.affs[0].affId} `;
                     break;
                 case HexType.affIllumed:
-                    result += `hex-aff-${aff.affId}-illumed `;
+                    result += `hex-aff-illumed-${aff.affId} `;
                     break;
                 case HexType.affOthered:
-                    result += `hex-aff-${aff.affId}-othered `;
+                    result += `hex-aff-othered-${aff.affId} `;
                     break;
                 default:
                     break;
@@ -60,6 +60,9 @@ export class Hexagon extends React.Component<HexParams>{
     }
 
     private mouseLeave = () => {
-
+        if (this.props.affs.length > 0
+            && this.props.affs.some(a => a.hexType === HexType.affCenter)) {
+            this.props.affDeHover(this.props.affs[0].affId);
+        }
     }
 }

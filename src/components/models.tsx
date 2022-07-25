@@ -1,9 +1,4 @@
-import { Dispatch } from "react";
 import { Affiliates } from "../models/affiliate";
-
-export type ColumnStates = {
-    count: number; // like this
-};
 
 export type CanvasParams = {
 
@@ -12,6 +7,8 @@ export type CanvasParams = {
 export type CanvasStatus = {
     curStep: number;
     affiliates: Affiliates;
+    runInterval: number | undefined;
+    hexParams: HexParams[][];
 }
 
 export interface IStepTest {
@@ -21,6 +18,7 @@ export interface IStepTest {
 export type HexParams = {
     affs: HexAff[];
     affHover(aff: number): any;
+    affDeHover(aff: number): any;
 }
 
 export type HexAff = {

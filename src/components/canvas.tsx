@@ -8,7 +8,15 @@ import { useState } from 'react';
 export class Canvas extends React.Component<CanvasParams, CanvasStatus> {
   constructor(props: CanvasParams) {
     super(props);
-    //this.state.affiliates = new Affiliates();
+
+    let affiliates = new Affiliates();
+    const params = this.updateParams(affiliates);
+    this.state = {
+      curStep: 0,
+      affiliates: affiliates,
+      runInterval: undefined,
+      hexParams: params
+    };
   }
 
   render() {
@@ -20,20 +28,12 @@ export class Canvas extends React.Component<CanvasParams, CanvasStatus> {
   }
 
   renderColumns() {
-    let params: HexParams[][] = [];
-    for (var i = 0; i < COLS; i++) {
-      params.push([]);
-      for (var j = 0; j < ROWS; j++) {
-        let hexParams: HexParams = { affs: [], affHover: this.affHover };
-        params[i].push(hexParams);
-      }
-    }
-    params = this.state.affiliates.fill(params);
+
 
     return (
       <div className="honeycomb ">
         <>
-          {params.map((i, key) => this.renderColumn(i, key))}
+          {this.state.hexParams.map((i, key) => this.renderColumn(i, key))}
         </>
         <div className="shadows"></div>
       </div>
@@ -47,36 +47,47 @@ export class Canvas extends React.Component<CanvasParams, CanvasStatus> {
           <Hexagon
             affs={hexParam.affs}
             key={key * ROWS + index}
-            affHover={this.affHover}
+            affHover={(affId) => this.affHover(affId)}
+            affDeHover={(affId) => this.affDeHover(affId)}
           />)}
       </div>
     );
   }
-
+  private updateParams = (affiliates: Affiliates): HexParams[][] => {
+    let params: HexParams[][] = [];
+    for (var i = 0; i < COLS; i++) {
+      params.push([]);
+      for (var j = 0; j < ROWS; j++) {
+        let hexParams: HexParams = {
+          affs: [],
+          affHover: this.affHover,
+          affDeHover: this.affDeHover
+        };
+        params[i].push(hexParams);
+      }
+    }
+    params = affiliates.fill(params);
+    return params;
+  }
 
   //const[this.state, setState] = useState<CanvasStatus>({ curStep: 0, affiliates: new Affiliates() });
-
-
 
   private affHover = (affId: number) => {
     const aff = this.state.affiliates.affiliates[affId];
     console.log(aff);
-    let curStep = 1;
-    requestAnimationFrame(() => {
+    let runInterval = window.setInterval(() => {
       setTimeout(() => {
-        this.setState(curStep: this.state.curStep + 1);
-      }, 800);
+        let nextStep = this.state.curStep < aff.Radius ? this.state.curStep + 1 : 0;
+        this.state.affiliates.update(affId, this.state.curStep);
+        const params = this.updateParams(this.state.affiliates)
+        this.setState({ curStep: nextStep, hexParams: params });
+      }, 1000);
     });
+    this.setState({ runInterval: runInterval })
   }
 
-  private animateAffs = ({ curStep: number }) => {
-    this.state.affiliates.update({ affId, curStep });
-    curStep++;
-    this.render();
-  }
-
-  renderAffs() {
-
+  private affDeHover = (affId: number) => {
+    window.clearInterval(this.state.runInterval);
   }
 }
 

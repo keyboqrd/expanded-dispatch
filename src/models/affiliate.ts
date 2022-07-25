@@ -68,18 +68,6 @@ export class Affiliates {
     private _affiliates: Affiliate[] = [];
 
     public fill = (params: HexParams[][]): HexParams[][] => {
-        /*this._affiliates.forEach((aff, index) => {
-            aff.Areas.forEach(area => {
-                let p = params[area.p.col][area.p.row];
-                p.type = HexType.affIllumed;
-                let current = { aff: index, step: area.step };
-                if (p.affs === undefined) {
-                    p.affs = [current]
-                } else {
-                    p.affs.push(current);
-                }
-            })
-        });*/
         this._affiliates.forEach((aff, index) => {
 
             params[aff.Center.col][aff.Center.row].affs = [{ affId: index, step: 0, hexType: HexType.affCenter }];

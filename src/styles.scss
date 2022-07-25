@@ -55,8 +55,12 @@ body {
       @include transition(all .3s ease-out);
       @include opacity(0.5);
 
-      &div[class^="hex-aff-"] {
+      &div[class^="hex-aff-illumed-"] {
         @include opacity(0.75);
+      }
+
+      &div[class^="hex-aff-othered-"] {
+        @include opacity(0.5);
       }
 
       &:hover {
@@ -93,8 +97,8 @@ body {
         @for $i from 0 through 3 {
 
           .hex-aff-center-#{$i},
-          .hex-aff-#{$i}-illumed,
-          .hex-aff-#{$i}-othered {
+          .hex-aff-illumed-#{$i},
+          .hex-aff-othered-#{$i} {
             background: list.nth($hexagon-aff-colors, $i + 1);
 
             &:before {
