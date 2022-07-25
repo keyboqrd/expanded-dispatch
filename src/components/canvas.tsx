@@ -10,7 +10,20 @@ export class Canvas extends React.Component<CanvasParams, CanvasStatus> {
     super(props);
 
     let affiliates = new Affiliates();
-    const params = this.updateParams(affiliates);
+    let params: HexParams[][] = [];
+    for (var i = 0; i < COLS; i++) {
+      params.push([]);
+      for (var j = 0; j < ROWS; j++) {
+        let hexParams: HexParams = {
+          affs: [],
+          affHover: this.affHover,
+          affDeHover: this.affDeHover
+        };
+        params[i].push(hexParams);
+      }
+    }
+    params = affiliates.fill(params);
+
     this.state = {
       curStep: 0,
       affiliates: affiliates,
@@ -53,22 +66,7 @@ export class Canvas extends React.Component<CanvasParams, CanvasStatus> {
       </div>
     );
   }
-  private updateParams = (affiliates: Affiliates): HexParams[][] => {
-    let params: HexParams[][] = [];
-    for (var i = 0; i < COLS; i++) {
-      params.push([]);
-      for (var j = 0; j < ROWS; j++) {
-        let hexParams: HexParams = {
-          affs: [],
-          affHover: this.affHover,
-          affDeHover: this.affDeHover
-        };
-        params[i].push(hexParams);
-      }
-    }
-    params = affiliates.fill(params);
-    return params;
-  }
+
 
   //const[this.state, setState] = useState<CanvasStatus>({ curStep: 0, affiliates: new Affiliates() });
 
@@ -79,8 +77,8 @@ export class Canvas extends React.Component<CanvasParams, CanvasStatus> {
       setTimeout(() => {
         let nextStep = this.state.curStep < aff.Radius ? this.state.curStep + 1 : 0;
         this.state.affiliates.update(affId, this.state.curStep);
-        const params = this.updateParams(this.state.affiliates)
-        this.setState({ curStep: nextStep, hexParams: params });
+        this.state.affiliates.fill(this.state.hexParams);
+        this.setState({ curStep: nextStep, hexParams: this.state.hexParams, affiliates: this.state.affiliates });
       }, 1000);
     });
     this.setState({ runInterval: runInterval })
