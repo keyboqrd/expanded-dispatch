@@ -5,17 +5,17 @@ export type CanvasParams = {
 }
 
 export type CanvasStatus = {
-    curStep: number;
     affiliates: Affiliates;
     runInterval: number | undefined;
-    hexParams: HexParams[][];
-}
-
-export interface IStepTest {
-    curStep: number;
+    hexParamss: HexParams[][];
 }
 
 export type HexParams = {
+    affs: HexAff[];
+}
+
+//used by Hexagon.tsx
+export type HexProps = {
     affs: HexAff[];
     affHover(aff: number): any;
     affDeHover(aff: number): any;
@@ -23,7 +23,6 @@ export type HexParams = {
 
 export type HexAff = {
     affId: number;
-    step: number;
     hexType: HexType;
 }
 

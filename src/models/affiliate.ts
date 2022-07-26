@@ -1,4 +1,3 @@
-import { HexType, HexParams } from "../components/models";
 import { Trade, P, Dir1, Dir2 } from "./types";
 import { Utils } from "./utils";
 
@@ -6,24 +5,25 @@ import { Utils } from "./utils";
 
 class Affiliate {
     constructor(
+        id: number,
         center: P,
         trades: Trade[],
         serviced: P[],
         radius: number = 3
     ) {
+        this.Id = id;
         this.Center = center;
         this.Trades = trades;
         this.Radius = radius;
         this.Areas = this.calculateAreas();
         this.Serviced = serviced;
     }
-
+    Id: number;
     Center: P;
     Trades: Trade[];
     Radius: number;
     Areas: { p: P, step: number }[];
     Serviced: P[];
-    CurStep: number = 0;
 
     private calculateAreas(): { p: P, step: number }[] {
         let result: { p: P, step: number }[] = [];
@@ -57,37 +57,26 @@ class Affiliate {
 
 export class Affiliates {
     constructor() {
-        this._affiliates.push(
-            new Affiliate({ col: 3, row: 3 }, [Trade.HVAC], [], 3),
-            new Affiliate({ col: 9, row: 6 }, [Trade.Flooring], [], 4),
-            new Affiliate({ col: 12, row: 2 }, [Trade.Pool], [], 3),
-            new Affiliate({ col: 6, row: 1 }, [Trade.Pool], [], 2)
+        this._list.push(
+            new Affiliate(0, { col: 3, row: 3 }, [Trade.HVAC], [], 3),
+            new Affiliate(1, { col: 9, row: 6 }, [Trade.Flooring], [], 4),
+            new Affiliate(2, { col: 12, row: 2 }, [Trade.Pool], [], 3),
+            new Affiliate(3, { col: 6, row: 1 }, [Trade.Pool], [], 2)
         );
     }
-    public get affiliates(): Affiliate[] { return this._affiliates; }
-    private _affiliates: Affiliate[] = [];
+    public get list(): Affiliate[] { return this._list; }
+    private _list: Affiliate[] = [];
 
-    public fill = (params: HexParams[][]): HexParams[][] => {
-        this._affiliates.forEach((aff, index) => {
+    public curSteps: { [affId: number]: number } = {};
 
-            params[aff.Center.col][aff.Center.row].affs = [{ affId: index, step: 0, hexType: HexType.affCenter }];
-            if (aff.CurStep !== 0) {
-                aff.Areas.forEach(area => {
-                    let col = area.p.col;
-                    let row = area.p.row;
-                    let step = area.step;
-                    if (area.step === aff.CurStep) {
-                        params[col][row].affs.push({ affId: index, step: step, hexType: HexType.affIllumed });
-                    } else {
-                        params[col][row].affs.push({ affId: index, step: step, hexType: HexType.affOthered });
-                    }
-                });
-            }
-        });
-        return params;
-    }
-
-    public update = (affId: number, curStep: number) => {
-        this._affiliates[affId].CurStep = curStep;
+    public update = (affId: number) => {
+        let curStep = this.curSteps[affId];
+        if (curStep < this._list[affId].Radius) {
+            curStep++
+        } else {
+            curStep = 0;
+        }
+        this.curSteps[affId] = curStep;
+        console.log(`curStep: ${curStep}`);
     }
 }

@@ -1,7 +1,7 @@
 import React from "react";
-import { HexAff, HexType, InnerParams } from "./models";
+import { HexAff, HexParams, HexType, InnerParams } from "./models";
 
-export class HexagonInner extends React.Component<InnerParams>{
+export class HexagonInner extends React.Component<HexParams>{
     render(): React.ReactNode {
         return (
             <span className="content">
