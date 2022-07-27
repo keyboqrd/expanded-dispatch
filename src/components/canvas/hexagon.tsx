@@ -7,6 +7,7 @@ export class Hexagon extends React.Component<HexProps>{
     render = (): React.ReactNode => {
         const outerClasses = CanvasRenderer.getOuterClasses(this.props.affs);
         const wrapperClasses = CanvasRenderer.getWrapperClasses(this.props.affs);
+
         return (
             <a className={outerClasses}
                 onMouseEnter={this.mouseEnter}

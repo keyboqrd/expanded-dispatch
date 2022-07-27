@@ -1,6 +1,6 @@
 import React from 'react';
-import { Affiliates } from '../models/affiliate';
-import { COLS, ROWS } from '../models/_index';
+import { Affiliates } from '../../models/affiliate';
+import { COLS, ROWS } from '../../models/_index';
 import { Hexagon } from './hexagon';
 import { CanvasParams, CanvasStatus } from './models';
 import { CanvasRenderer } from './canvas-renderer';
@@ -9,17 +9,15 @@ export class Canvas extends React.Component<CanvasParams, CanvasStatus> {
   constructor(props: CanvasParams) {
     super(props);
 
-    let affiliates = new Affiliates();
-    let params = CanvasRenderer.init();
-    params = CanvasRenderer.affsInit(params, affiliates);
+    this.affiliates = new Affiliates();
+    let params = CanvasRenderer.init(this.affiliates);
 
     this.state = {
-      affiliates: affiliates,
-      runInterval: undefined,
       hexParamss: params
     };
   }
-
+  private affiliates: Affiliates;
+  private runInterval?: number;
   render() {
     return (
       <div className="container">
@@ -43,16 +41,22 @@ export class Canvas extends React.Component<CanvasParams, CanvasStatus> {
   }
 
   private affHover = (affId: number) => {
-    const aff = this.state.affiliates.list[affId];
-    let runInterval = window.setInterval(() => {
-      this.state.affiliates.update(affId)
-      this.setState({ hexParamss: CanvasRenderer.affsFill(this.state.hexParamss, this.state.affiliates), affiliates: this.state.affiliates });
-    }, 1000);
-    this.setState({ runInterval: runInterval })
+    window.clearInterval(this.runInterval);
+    const aff = this.affiliates.list[affId];
+    this.runInterval = window.setInterval(() => {
+      CanvasRenderer.updateAff(aff);
+      let paramss = CanvasRenderer.init(this.affiliates)
+      paramss = CanvasRenderer.affsFill(paramss, this.affiliates.list[affId]);
+      this.setState({ hexParamss: paramss });
+    }, 300);
   }
 
   private affDeHover = (affId: number) => {
-    //window.clearInterval(this.state.runInterval);
+    window.clearInterval(this.runInterval);
+    const aff = this.affiliates.list[affId];
+    CanvasRenderer.resetAff(aff);
+    let paramss = CanvasRenderer.init(this.affiliates)
+    this.setState({ hexParamss: paramss });
   }
 }
 

@@ -5,14 +5,12 @@ $hexagon-plain-color: #bbbbbb;
 $hexagon-affed-color: #00ff6a;
 $hexagon-aff-colors: #ffbc06, #00ff6a, #00d9ff, #ff00b7;
 
-body {
-  background-color: #171d25;
-}
 
 .container {
   position: relative;
   @include transition(all .3s ease-out);
   height: 700px;
+  width: 1200px;
   @include perspective(1200px);
   z-index: 10;
   overflow: hidden;
@@ -41,6 +39,14 @@ body {
       }
     }
 
+    a[class*="hex-aff-illumed-"] {
+      @include opacity(1);
+    }
+
+    a[class*="hex-aff-othered-"] {
+      @include opacity(0.85);
+    }
+
     .hex {
       display: block;
       position: relative;
@@ -54,14 +60,6 @@ body {
       @include transform-style(preserve-3d);
       @include transition(all .3s ease-out);
       @include opacity(0.5);
-
-      &div[class^="hex-aff-illumed-"] {
-        @include opacity(0.75);
-      }
-
-      &div[class^="hex-aff-othered-"] {
-        @include opacity(0.5);
-      }
 
       &:hover {
         opacity: 1;

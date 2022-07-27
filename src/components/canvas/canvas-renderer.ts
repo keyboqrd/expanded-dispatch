@@ -1,9 +1,24 @@
-import { Affiliates } from "../models/affiliate";
-import { COLS, ROWS } from "../models/consts";
+import { Affiliate, Affiliates } from "../../models/affiliate";
+import { COLS, ROWS } from "../../models/consts";
 import { HexAff, HexParams, HexType } from "./models";
 
 export abstract class CanvasRenderer {
-    public static init = (): HexParams[][] => {
+    public static affCurSteps: { [affId: number]: number } = {};
+    public static updateAff = (aff: Affiliate) => {
+        let curStep = this.affCurSteps[aff.Id];
+        if (curStep < aff.Radius) {
+            curStep++
+        } else {
+            curStep = 1;
+        }
+        this.affCurSteps[aff.Id] = curStep;
+    }
+
+    public static resetAff = (aff: Affiliate) => {
+        this.affCurSteps[aff.Id] = 0;
+    }
+
+    private static _init = (): HexParams[][] => {
         let params: HexParams[][] = [];
         for (var i = 0; i < COLS; i++) {
             params.push([]);
@@ -16,7 +31,9 @@ export abstract class CanvasRenderer {
         }
         return params;
     }
-    public static affsInit = (params: HexParams[][], affs: Affiliates): HexParams[][] => {
+
+    public static init = (affs: Affiliates): HexParams[][] => {
+        let params = this._init();
         affs.list.forEach(aff => {
             params[aff.Center.col][aff.Center.row].affs = [{ affId: aff.Id, hexType: HexType.affCenter }];
         });
@@ -24,20 +41,18 @@ export abstract class CanvasRenderer {
 
     }
 
-    public static affsFill = (params: HexParams[][], affs: Affiliates): HexParams[][] => {
-        affs.list.forEach(aff => {
-            if (affs.curSteps[aff.Id] !== 0) {
-                aff.Areas.forEach(area => {
-                    let col = area.p.col;
-                    let row = area.p.row;
-                    if (area.step === affs.curSteps[aff.Id]) {
-                        params[col][row].affs.push({ affId: aff.Id, hexType: HexType.affIllumed });
-                    } else {
-                        params[col][row].affs.push({ affId: aff.Id, hexType: HexType.affOthered });
-                    }
-                });
-            }
-        });
+    public static affsFill = (params: HexParams[][], aff: Affiliate): HexParams[][] => {
+        if (this.affCurSteps[aff.Id] !== 0) {
+            aff.Areas.forEach(area => {
+                let col = area.p.col;
+                let row = area.p.row;
+                if (area.step === this.affCurSteps[aff.Id]) {
+                    params[col][row].affs.push({ affId: aff.Id, hexType: HexType.affIllumed });
+                } else {
+                    params[col][row].affs.push({ affId: aff.Id, hexType: HexType.affOthered });
+                }
+            });
+        }
         return params;
     }
 
@@ -46,12 +61,14 @@ export abstract class CanvasRenderer {
         if (affs.length > 0) {
             const aff = affs[0];
             if (aff.hexType === HexType.affCenter) {
+
             } else if (aff.hexType === HexType.affIllumed) {
-                result += `hex-aff-${aff.affId}-illumed `;
+                result += `hex-aff-illumed-${aff.affId} `;
             } else if (aff.hexType === HexType.affOthered) {
-                result += `hex-aff-${aff.affId}-othered `
+                result += `hex-aff-othered-${aff.affId} `;
             }
         }
+
         return result;
     }
 

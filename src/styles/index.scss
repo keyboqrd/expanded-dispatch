@@ -1,0 +1,20 @@
+body {
+    background-color: #171d25;
+}
+
+#root {
+    display: flex;
+
+    .container {
+        flex: 0 0 65%;
+    }
+
+    .sided {
+        flex: 1;
+        //background-color: gray;
+        padding: 10px 10px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}

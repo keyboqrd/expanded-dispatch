@@ -3,7 +3,7 @@ import { Utils } from "./utils";
 
 
 
-class Affiliate {
+export class Affiliate {
     constructor(
         id: number,
         center: P,
@@ -66,17 +66,4 @@ export class Affiliates {
     }
     public get list(): Affiliate[] { return this._list; }
     private _list: Affiliate[] = [];
-
-    public curSteps: { [affId: number]: number } = {};
-
-    public update = (affId: number) => {
-        let curStep = this.curSteps[affId];
-        if (curStep < this._list[affId].Radius) {
-            curStep++
-        } else {
-            curStep = 0;
-        }
-        this.curSteps[affId] = curStep;
-        console.log(`curStep: ${curStep}`);
-    }
 }

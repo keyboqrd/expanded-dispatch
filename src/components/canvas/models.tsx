@@ -1,12 +1,12 @@
-import { Affiliates } from "../models/affiliate";
+import { Affiliates } from "../../models/affiliate";
 
 export type CanvasParams = {
 
 }
 
 export type CanvasStatus = {
-    affiliates: Affiliates;
-    runInterval: number | undefined;
+    //affiliates: Affiliates;
+    //runInterval: number | undefined;
     hexParamss: HexParams[][];
 }
 
