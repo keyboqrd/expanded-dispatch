@@ -4,6 +4,7 @@ import { COLS, ROWS } from '../../models/_index';
 import { Hexagon } from './hexagon';
 import { CanvasParams, CanvasStatus } from './models';
 import { CanvasRenderer } from './canvas-renderer';
+import { AffContext } from '../..';
 
 export class Canvas extends React.Component<CanvasParams, CanvasStatus> {
   constructor(props: CanvasParams) {
@@ -14,10 +15,14 @@ export class Canvas extends React.Component<CanvasParams, CanvasStatus> {
 
     this.state = {
       hexParamss: params
+      context: 
     };
   }
   private affiliates: Affiliates;
   private runInterval?: number;
+  static contextType = AffContext;
+  //declare context: React.ContextType<typeof AffContext>;
+
   render() {
     return (
       <div className="container">
@@ -42,6 +47,7 @@ export class Canvas extends React.Component<CanvasParams, CanvasStatus> {
 
   private affHover = (affId: number) => {
     window.clearInterval(this.runInterval);
+    this.context.setActiveAff(affId);
     const aff = this.affiliates.list[affId];
     this.runInterval = window.setInterval(() => {
       CanvasRenderer.updateAff(aff);
@@ -53,6 +59,7 @@ export class Canvas extends React.Component<CanvasParams, CanvasStatus> {
 
   private affDeHover = (affId: number) => {
     window.clearInterval(this.runInterval);
+    this.context.setActiveAff(-1);
     const aff = this.affiliates.list[affId];
     CanvasRenderer.resetAff(aff);
     let paramss = CanvasRenderer.init(this.affiliates)

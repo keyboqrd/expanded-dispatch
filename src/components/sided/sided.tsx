@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { GlobalContext } from "../..";
+import { AffContext } from "../..";
 import { Affiliates } from "../../models/affiliate";
 import { Card } from "./card";
 
