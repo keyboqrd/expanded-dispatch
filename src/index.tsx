@@ -7,26 +7,40 @@ import { Canvas } from './components/canvas/canvas';
 import { Sided } from "./components/sided/sided";
 import { createContext, useContext } from "react"
 
-export type GlobalContent = {
+export type AffContectContent = {
     activeAff: number
-    update: (c: number) => void
+    setActiveAff: (i: number) => void
 }
-export const GlobalContext = createContext<GlobalContent>({
+export const AffContext = createContext<AffContectContent>({
     activeAff: -1,
-    update: () => { },
+    setActiveAff: () => { },
 })
 
+// for demonstration purposes only
 
-function App() {
-    const [activeAff, update] = useState<number>(-1);
-    return (
-        <React.StrictMode>
-            <GlobalContext.Provider value={{ activeAff, update }}>
-                <Canvas />
-                <Sided />
-            </GlobalContext.Provider>
-        </React.StrictMode>
-    );
+class App extends React.Component<any, AffContectContent> {
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            activeAff: -1,
+            setActiveAff: this.setActiveAff
+        }
+    }
+
+    private setActiveAff = (i: number) => {
+        this.setState({ activeAff: i });
+    }
+
+    render() {
+        return (
+            <React.StrictMode>
+                <AffContext.Provider value={this.state}>
+                    <Canvas />
+                    <Sided />
+                </AffContext.Provider>
+            </React.StrictMode>
+        );
+    }
 }
 
 
