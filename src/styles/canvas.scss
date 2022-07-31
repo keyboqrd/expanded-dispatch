@@ -1,9 +1,10 @@
 @use "sass:list";
 @import '~compass-mixins/lib/compass/css3';
+@import './index.scss';
 
-$hexagon-plain-color: #bbbbbb;
-$hexagon-affed-color: #00ff6a;
-$hexagon-aff-colors: #ffbc06, #00ff6a, #00d9ff, #ff00b7;
+$hexagon-plain-color: #eeeeee;
+
+
 
 
 .container {
@@ -92,7 +93,7 @@ $hexagon-aff-colors: #ffbc06, #00ff6a, #00d9ff, #ff00b7;
           }
         }
 
-        @for $i from 0 through 3 {
+        @for $i from 0 through 4 {
 
           .hex-aff-center-#{$i},
           .hex-aff-illumed-#{$i},

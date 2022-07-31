@@ -1,3 +1,6 @@
+@use "sass:list";
+@import './index.scss';
+
 $hoverEasing: cubic-bezier(0.23, 1, 0.32, 1);
 $returnEasing: cubic-bezier(0.445, 0.05, 0.55, 0.95);
 
@@ -36,7 +39,7 @@ $returnEasing: cubic-bezier(0.445, 0.05, 0.55, 0.95);
         }
 
         .card,
-        .card-highlighted {
+        div[class*="card-highlighted-"] {
             transition:
                 0.6s $hoverEasing,
                 box-shadow 2s $hoverEasing;
@@ -51,7 +54,7 @@ $returnEasing: cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
 
 .card,
-.card-highlighted {
+div[class*="card-highlighted-"] {
     position: relative;
     flex: 0 0 480px;
     width: 480px;
@@ -69,9 +72,13 @@ $returnEasing: cubic-bezier(0.445, 0.05, 0.55, 0.95);
     background-color: #333;
 }
 
-.card-highlighted {
-    background-color: green;
+@for $i from 0 through 4 {
+    .card-highlighted-#{$i} {
+        background-color: list.nth($hexagon-aff-colors, $i + 1);
+    }
 }
+
+
 
 .card-bg {
     opacity: 0.5;
