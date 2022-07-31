@@ -1,49 +1,38 @@
-import React, { useContext } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import { AffContext } from "../..";
-import { Affiliates } from "../../models/affiliate";
-import { SidedAff } from "../canvas/models";
+import { affiliates, Affiliates } from "../../models/affiliate";
 import { Card } from "./card";
+import { SidedRenderer } from "./sidedRenderer";
 
-type SidedProps {}
-
-type SidedState = {
-    affs: SidedAff[]
-}
+type SidedProps = {}
 
 
+export const Sided: FC<SidedProps> = () => {
+    const [sidedAffs, setSidedAffs] = useState(SidedRenderer.init(affiliates));
+    const [hoveredAff, setHoveredAff] = useState(-1);
+    const { activeAff, setActiveAff } = useContext(AffContext);
+    useEffect(() => {
+        activeAffChanged(activeAff);
+    }, [activeAff])
 
-export class Sided extends React.Component<SidedProps, SidedState> {
-
-    render(): React.ReactNode {
-        return (
-            <AffContext.Consumer>
-                {({ activeAff, setActiveAff }) => (
-                    <div className="sided">
-                        {this.affiliates.list.map((aff, affId) =>
-                            <Card affs={this.affiliates.list}
-                                clicked={(affId) => {
-                                    setActiveAff(affId);
-                                    this.affClicked(affId);
-                                }} />
-                        )}
-                    </div>
-                )}
-            </AffContext.Consumer>
-        )
+    const activeAffChanged = (affId: number) => {
+        if (affId === -1 || affId === hoveredAff) {
+            setSidedAffs(SidedRenderer.init(affiliates));
+            setHoveredAff(-1);
+        }
+        else {
+            setSidedAffs(SidedRenderer.updateAff(affiliates, affId));
+            setHoveredAff(affId);
+        }
     }
-
-    constructor(props: any) {
-        super(props);
-        this.affiliates = new Affiliates();
-    }
-    affiliates: Affiliates;
-
-    private affClicked = (affId: number) => {
-
-
-    }
-
-    init = () => {
-        //  this.context.;
-    }
+    return (
+        <div className="sided">
+            {sidedAffs.map((aff, affId) =>
+                <Card aff={aff}
+                    hover={(affId) => {
+                        setActiveAff(affId);
+                    }} />
+            )}
+        </div>
+    )
 }

@@ -1,9 +1,10 @@
 import React from "react";
 import { SidedAff } from "../canvas/models";
+import { CardType } from "./sidedRenderer";
 
 export type CardProps = {
-    affs: SidedAff[];
-    affClicked(aff: number): any;
+    aff: SidedAff;
+    hover(aff: number): any;
 }
 
 export class Card extends React.Component<CardProps> {
@@ -11,11 +12,12 @@ export class Card extends React.Component<CardProps> {
         return (
             <div className="card-wrap"
                 ref="card"
-                onClick={this.clicked}>
-                <div className="card" >
+                onMouseEnter={this.hover}
+                onMouseLeave={this.deHover}>
+                <div className={this.props.aff.type === CardType.plain ? "card" : "card-highlighted"} >
                     <div className="card-bg"></div>
                     <div className="card-info">
-                        <h1>Canyons</h1>
+                        <h1>{this.props.aff.name}</h1>
                         <p>
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                         </p>
@@ -29,9 +31,12 @@ export class Card extends React.Component<CardProps> {
         super(props);
     }
 
-    private clicked = () => {
-        if (this.props.affs.length > 0) {
-            this.props.affClicked(this.props.affs[0].affId);
-        }
+    private hover = () => {
+        this.props.hover(this.props.aff.affId);
     }
+
+    private deHover = () => {
+        this.props.hover(-1);
+    }
+
 }

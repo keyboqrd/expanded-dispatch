@@ -1,7 +1,4 @@
-import { AffContectContent } from "../..";
-import { Affiliates } from "../../models/affiliate";
-
-
+import { CardType } from "../sided/sidedRenderer";
 
 export type HexParams = {
     affs: HexAff[];
@@ -9,6 +6,8 @@ export type HexParams = {
 
 export type SidedAff = {
     affId: number;
+    name: string;
+    type: CardType
 }
 
 

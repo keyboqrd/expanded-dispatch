@@ -14,8 +14,8 @@ export abstract class CanvasRenderer {
         this.affCurSteps[aff.Id] = curStep;
     }
 
-    public static resetAff = (aff: Affiliate) => {
-        this.affCurSteps[aff.Id] = 0;
+    public static resetAff = () => {
+        this.affCurSteps = {}
     }
 
     private static _init = (): HexParams[][] => {
