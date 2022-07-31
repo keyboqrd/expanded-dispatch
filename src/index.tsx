@@ -24,7 +24,7 @@ class App extends React.Component<any, AffContectContent> {
         this.state = {
             activeAff: -1,
             setActiveAff: this.setActiveAff
-        }
+        };
     }
 
     private setActiveAff = (i: number) => {

@@ -1,20 +1,17 @@
 import { AffContectContent } from "../..";
 import { Affiliates } from "../../models/affiliate";
 
-export type CanvasParams = {
 
-}
-
-export type CanvasStatus = {
-    //affiliates: Affiliates;
-    //runInterval: number | undefined;
-    hexParamss: HexParams[][];
-    context: AffContectContent;
-}
 
 export type HexParams = {
     affs: HexAff[];
 }
+
+export type SidedAff = {
+    affId: number;
+}
+
+
 
 //used by Hexagon.tsx
 export type HexProps = {
