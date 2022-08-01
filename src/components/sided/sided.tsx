@@ -1,6 +1,6 @@
 import React, { FC, useContext, useEffect, useState } from "react";
 import { AffContext } from "../..";
-import { affiliates, Affiliates } from "../../models/affiliate";
+import { affiliates } from "../../models/affiliate";
 import { Card } from "./card";
 import { SidedRenderer } from "./sidedRenderer";
 
@@ -11,6 +11,7 @@ export const Sided: FC<SidedProps> = () => {
     const [sidedAffs, setSidedAffs] = useState(SidedRenderer.init(affiliates));
     const [hoveredAff, setHoveredAff] = useState(-1);
     const { activeAff, setActiveAff } = useContext(AffContext);
+
     useEffect(() => {
         activeAffChanged(activeAff);
     }, [activeAff])
@@ -29,7 +30,7 @@ export const Sided: FC<SidedProps> = () => {
         <div className="sided">
             {sidedAffs.map((aff, affId) =>
                 <Card aff={aff}
-                    hover={(affId) => {
+                    updateAff={(affId) => {
                         setActiveAff(affId);
                     }} />
             )}

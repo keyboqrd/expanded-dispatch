@@ -35,3 +35,9 @@ export enum HexType {
     affIllumed = 4,
     affOthered = 5,
 }
+
+export enum CanvasState {
+    default = 0,
+    hexClicked = 1,
+    woOn = 2
+}

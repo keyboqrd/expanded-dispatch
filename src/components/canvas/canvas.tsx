@@ -2,7 +2,7 @@ import React, { FC, useContext, useEffect, useState } from 'react';
 import { affiliates, Affiliates } from '../../models/affiliate';
 import { COLS, ROWS } from '../../models/_index';
 import { Hexagon } from './hexagon';
-import { HexParams } from './models';
+import { CanvasState, HexParams } from './models';
 import { CanvasRenderer } from './canvas-renderer';
 import { AffContext } from '../..';
 
@@ -11,7 +11,7 @@ type CanvasProps = {}
 export const Canvas: FC<CanvasProps> = () => {
   const [hexParamss, setHexParamss] = useState(CanvasRenderer.init(affiliates));
   const [intervalHandle, setIntervalHandle] = useState(-1);
-
+  const [canvasState, setCanvasState] = useState(CanvasState.default);
   const { activeAff, setActiveAff } = useContext(AffContext);
   useEffect(() => {
     if (activeAff === -1) {
@@ -49,22 +49,13 @@ export const Canvas: FC<CanvasProps> = () => {
                 <Hexagon
                   affs={hexParam.affs}
                   key={key * ROWS + index}
-                  affHover={(affId) => {
-                    setActiveAff(affId);
-                  }}
-                  affDeHover={(affId) => {
-                    setActiveAff(-1);
-                  }}
+                  affHover={(affId) => setActiveAff(affId)}
+                  affDeHover={(affId) => setActiveAff(-1)}
                 />)}
             </div>)}
         </>
         <div className="shadows"></div>
       </div>
     </div >)
-
-
-
-
-
 }
 
