@@ -13,6 +13,8 @@ export const Canvas: FC<CanvasProps> = () => {
   const [intervalHandle, setIntervalHandle] = useState(-1);
   const [canvasState, setCanvasState] = useState(CanvasState.default);
   const { activeAff, setActiveAff } = useContext(AffContext);
+
+
   useEffect(() => {
     if (activeAff === -1) {
       affDeHover();
@@ -49,8 +51,11 @@ export const Canvas: FC<CanvasProps> = () => {
                 <Hexagon
                   affs={hexParam.affs}
                   key={key * ROWS + index}
-                  affHover={(affId) => setActiveAff(affId)}
-                  affDeHover={(affId) => setActiveAff(-1)}
+                  canvasState={canvasState}
+                  //setCanvasState={(state) => setCanvasState(state)}
+                  setAff={(affId) => setActiveAff(affId)}
+                  unsetAff={(affId) => setActiveAff(-1)}
+
                 />)}
             </div>)}
         </>

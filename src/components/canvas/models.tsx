@@ -15,8 +15,10 @@ export type SidedAff = {
 //used by Hexagon.tsx
 export type HexProps = {
     affs: HexAff[];
-    affHover(aff: number): any;
-    affDeHover(aff: number): any;
+    canvasState: CanvasState;
+    //setCanvasState(state: CanvasState): any;
+    setAff(aff: number): any;
+    unsetAff(aff: number): any;
 }
 
 export type HexAff = {

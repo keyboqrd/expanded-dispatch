@@ -16,6 +16,10 @@ export const AffContext = createContext<AffContectContent>({
     setActiveAff: () => { },
 })
 
+export type WoCreationContent = {
+
+}
+
 // for demonstration purposes only
 
 class App extends React.Component<any, AffContectContent> {

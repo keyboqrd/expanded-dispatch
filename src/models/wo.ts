@@ -27,9 +27,10 @@ export abstract class WoCalculator {
         let result: WoAff[] = [];
         affiliates.list.forEach(aff => {
             let woAff: WoAff;
-            if (aff.Trades.includes(wo.trade)) {
+            if (aff.Wo12Mo.includes(wo.p))
+                if (aff.Trades.includes(wo.trade)) {
 
-            }
+                }
         });
 
         return result;

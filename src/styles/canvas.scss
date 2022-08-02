@@ -62,7 +62,8 @@ $hexagon-plain-color: #eeeeee;
       @include transition(all .3s ease-out);
       @include opacity(0.5);
 
-      &:hover {
+      &:hover,
+      &.hovered {
         opacity: 1;
         @include transform(translateZ(20px));
         @include transition-duration(200ms);

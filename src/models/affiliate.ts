@@ -10,7 +10,9 @@ export class Affiliate {
         center: P,
         trades: Trade[],
         serviced: P[],
-        radius: number = 3
+        radius: number = 3,
+        wo12Mo: P[],
+        wo24Mo: P[],
     ) {
         this.Id = id;
         this.Name = name;
@@ -19,6 +21,8 @@ export class Affiliate {
         this.Radius = radius;
         this.Areas = this.calculateAreas();
         this.Serviced = serviced;
+        this.Wo12Mo = wo12Mo;
+        this.Wo24Mo = wo24Mo;
     }
     Id: number;
     Name: string;
@@ -27,6 +31,8 @@ export class Affiliate {
     Radius: number;
     Areas: { p: P, step: number }[];
     Serviced: P[];
+    Wo12Mo: P[];
+    Wo24Mo: P[];
 
     private calculateAreas(): { p: P, step: number }[] {
         let result: { p: P, step: number }[] = [];
@@ -61,10 +67,10 @@ export class Affiliate {
 export class Affiliates {
     constructor() {
         this._list.push(
-            new Affiliate(0, 'AAA', { col: 3, row: 3 }, [Trade.HVAC], [], 3),
-            new Affiliate(1, 'BBB', { col: 9, row: 6 }, [Trade.Flooring], [], 4),
-            new Affiliate(2, 'CCC', { col: 12, row: 2 }, [Trade.Pool], [], 3),
-            new Affiliate(3, 'DDD', { col: 6, row: 1 }, [Trade.Pool], [], 2)
+            new Affiliate(0, 'AAA', { col: 3, row: 3 }, [Trade.HVAC], [], 3, [], []),
+            new Affiliate(1, 'BBB', { col: 9, row: 6 }, [Trade.Flooring], [], 4, [], []),
+            new Affiliate(2, 'CCC', { col: 12, row: 2 }, [Trade.Pool], [], 3, [], []),
+            new Affiliate(3, 'DDD', { col: 6, row: 1 }, [Trade.Pool], [], 2, [], [])
         );
     }
     public get list(): Affiliate[] { return this._list; }
