@@ -6,6 +6,8 @@ import "./styles/sided.scss";
 import { Canvas } from './components/canvas/canvas';
 import { Sided } from "./components/sided/sided";
 import { createContext, useContext } from "react"
+import { Wo } from "./models/wo";
+import { Trade } from "./models/types";
 
 export type AffContectContent = {
     activeAff: number
@@ -16,9 +18,15 @@ export const AffContext = createContext<AffContectContent>({
     setActiveAff: () => { },
 })
 
-export type WoCreationContent = {
-
+export type WoContent = {
+    wo: Wo,
+    setWo: (wo: Wo) => void
 }
+
+export const WoContext = createContext<WoContent>({
+    wo: undefined,
+    setWo: () => { }
+})
 
 // for demonstration purposes only
 

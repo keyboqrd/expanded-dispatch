@@ -1,4 +1,5 @@
 export enum Trade {
+    NotYet = 0,
     HVAC = 1,
     Flooring = 2,
     Pool = 3
