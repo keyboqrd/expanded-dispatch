@@ -2,17 +2,19 @@ import React, { FC, useContext, useEffect, useState } from 'react';
 import { affiliates, Affiliates } from '../../models/affiliate';
 import { COLS, ROWS } from '../../models/_index';
 import { Hexagon } from './hexagon';
-import { CanvasState, HexParams } from './models';
 import { CanvasRenderer } from './canvas-renderer';
-import { AffContext } from '../..';
+import { AffContext, WoContext } from '../..';
+
+
 
 type CanvasProps = {}
 
 export const Canvas: FC<CanvasProps> = () => {
   const [hexParamss, setHexParamss] = useState(CanvasRenderer.init(affiliates));
   const [intervalHandle, setIntervalHandle] = useState(-1);
-  const [canvasState, setCanvasState] = useState(CanvasState.default);
+
   const { activeAff, setActiveAff } = useContext(AffContext);
+  const { wo, setWo } = useContext(WoContext);
 
 
   useEffect(() => {
@@ -23,6 +25,10 @@ export const Canvas: FC<CanvasProps> = () => {
       affHover(activeAff);
     }
   }, [activeAff])
+
+  useEffect(() => {
+
+  }, [wo]);
 
   const affHover = (affId: number) => {
     window.clearInterval(intervalHandle);
@@ -40,7 +46,7 @@ export const Canvas: FC<CanvasProps> = () => {
     let paramss = CanvasRenderer.init(affiliates)
     setHexParamss(paramss);
   }
-
+  const updateWo = () => { }
   return (
     <div className="container">
       <div className="honeycomb ">
@@ -50,12 +56,12 @@ export const Canvas: FC<CanvasProps> = () => {
               {i.map((hexParam, index) =>
                 <Hexagon
                   affs={hexParam.affs}
-                  key={key * ROWS + index}
-                  canvasState={canvasState}
-                  //setCanvasState={(state) => setCanvasState(state)}
+                  col={hexParam.col}
+                  row={hexParam.row}
+                  key={`${hexParam.col}.${hexParam.row}`}
                   setAff={(affId) => setActiveAff(affId)}
                   unsetAff={(affId) => setActiveAff(-1)}
-
+                  updateWo={updateWo}
                 />)}
             </div>)}
         </>

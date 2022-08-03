@@ -7,20 +7,20 @@ import { Canvas } from './components/canvas/canvas';
 import { Sided } from "./components/sided/sided";
 import { createContext, useContext } from "react"
 import { Wo } from "./models/wo";
-import { Trade } from "./models/types";
+import { P, Trade } from "./models/types";
 
-export type AffContectContent = {
+export type AffContent = {
     activeAff: number
     setActiveAff: (i: number) => void
 }
-export const AffContext = createContext<AffContectContent>({
+export const AffContext = createContext<AffContent>({
     activeAff: -1,
     setActiveAff: () => { },
 })
 
 export type WoContent = {
     wo: Wo,
-    setWo: (wo: Wo) => void
+    setWo: (p: P, trade: Trade) => void
 }
 
 export const WoContext = createContext<WoContent>({
@@ -30,25 +30,46 @@ export const WoContext = createContext<WoContent>({
 
 // for demonstration purposes only
 
-class App extends React.Component<any, AffContectContent> {
+type AppProp = {
+    affContext: AffContent;
+    woContext: WoContent;
+}
+
+class App extends React.Component<any, AppProp> {
     constructor(props: any) {
         super(props);
         this.state = {
-            activeAff: -1,
-            setActiveAff: this.setActiveAff
+            affContext: {
+                activeAff: -1,
+                setActiveAff: this.setActiveAff
+            },
+            woContext: {
+                wo: undefined,
+                setWo: this.setWo
+            }
         };
     }
 
     private setActiveAff = (i: number) => {
-        this.setState({ activeAff: i });
+        const affContext = { ...this.state.affContext };
+        affContext.activeAff = i;
+        this.setState({ affContext });
+    }
+
+    private setWo = (p: P, trade: Trade) => {
+        const woContext = { ...this.state.woContext };
+        woContext.wo = { p: p, trade: trade };
+        this.setState({ woContext });
     }
 
     render() {
         return (
             <React.StrictMode>
-                <AffContext.Provider value={this.state}>
-                    <Canvas />
-                    <Sided />
+                <AffContext.Provider value={this.state.affContext}>
+                    <WoContext.Provider value={this.state.woContext}>
+                        <Canvas />
+                        <Sided />
+                    </WoContext.Provider>
                 </AffContext.Provider>
             </React.StrictMode>
         );

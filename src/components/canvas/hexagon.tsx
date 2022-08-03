@@ -1,11 +1,12 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useContext, useState } from 'react';
+import { WoContext } from '../..';
 import { CanvasRenderer } from './canvas-renderer';
 import { HexagonInner } from './hexagon-inner';
-import { HexType, HexProps, CanvasState } from './models';
+import { HexType, HexProps } from './models';
 
 export const Hexagon: FC<HexProps> = (props) => {
-    const [clicked, setClicked] = useState(false);
 
+    const { wo, setWo } = useContext(WoContext);
 
 
     const mouseEnter = () => {
@@ -22,7 +23,7 @@ export const Hexagon: FC<HexProps> = (props) => {
 
     const mouseClick = () => {
         if (props.affs.length === 0 || props.affs[0].hexType === HexType.plain) {
-            setClicked(!clicked);
+            //setWo();
         }
     }
 
@@ -30,7 +31,7 @@ export const Hexagon: FC<HexProps> = (props) => {
 
     }
 
-    const outerClasses = CanvasRenderer.getOuterClasses(props.affs, clicked);
+    const outerClasses = CanvasRenderer.getOuterClasses(props.affs);
     const wrapperClasses = CanvasRenderer.getWrapperClasses(props.affs);
     return (
         <a className={outerClasses}
@@ -42,7 +43,9 @@ export const Hexagon: FC<HexProps> = (props) => {
                 <div className={wrapperClasses}></div>
             </div>
             <HexagonInner
-                //onWoCreated={createWo}
-                affs={props.affs} />
+                affs={props.affs}
+                col={props.col}
+                row={props.row}
+            />
         </a>);
 }

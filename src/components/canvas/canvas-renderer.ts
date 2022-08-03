@@ -25,6 +25,8 @@ export abstract class CanvasRenderer {
             for (var j = 0; j < ROWS; j++) {
                 let hexParams: HexParams = {
                     affs: [],
+                    col: i,
+                    row: j
                 };
                 params[i].push(hexParams);
             }
@@ -56,7 +58,7 @@ export abstract class CanvasRenderer {
         return params;
     }
 
-    public static getOuterClasses = (affs: HexAff[], clicked: boolean): string => {
+    public static getOuterClasses = (affs: HexAff[]): string => {
         let result = 'hex ';
         if (affs.length > 0) {
             const aff = affs[0];
@@ -67,9 +69,6 @@ export abstract class CanvasRenderer {
             } else if (aff.hexType === HexType.affOthered) {
                 result += `hex-aff-othered-${aff.affId} `;
             }
-        }
-        if (clicked === true) {
-            result += `hovered`;
         }
 
         return result;
