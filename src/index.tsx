@@ -20,11 +20,11 @@ export const AffContext = createContext<AffContent>({
 
 export type WoContent = {
     wo: Wo,
-    setWo: (p: P, trade: Trade) => void
+    setWo: (p: P | undefined, trade: Trade | undefined) => void
 }
 
 export const WoContext = createContext<WoContent>({
-    wo: undefined,
+    wo: { p: undefined, trade: undefined },
     setWo: () => { }
 })
 
@@ -44,7 +44,7 @@ class App extends React.Component<any, AppProp> {
                 setActiveAff: this.setActiveAff
             },
             woContext: {
-                wo: undefined,
+                wo: { p: undefined, trade: undefined },
                 setWo: this.setWo
             }
         };
@@ -56,7 +56,7 @@ class App extends React.Component<any, AppProp> {
         this.setState({ affContext });
     }
 
-    private setWo = (p: P, trade: Trade) => {
+    private setWo = (p: P | undefined, trade: Trade | undefined) => {
         const woContext = { ...this.state.woContext };
         woContext.wo = { p: p, trade: trade };
         this.setState({ woContext });

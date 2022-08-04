@@ -2,7 +2,7 @@ import React, { FC, useContext, useEffect, useState } from 'react';
 import { affiliates, Affiliates } from '../../models/affiliate';
 import { COLS, ROWS } from '../../models/_index';
 import { Hexagon } from './hexagon';
-import { CanvasRenderer } from './canvas-renderer';
+import { CanvasCalculator } from './canvas-calculator';
 import { AffContext, WoContext } from '../..';
 
 
@@ -10,7 +10,7 @@ import { AffContext, WoContext } from '../..';
 type CanvasProps = {}
 
 export const Canvas: FC<CanvasProps> = () => {
-  const [hexParamss, setHexParamss] = useState(CanvasRenderer.init(affiliates));
+  const [hexParamss, setHexParamss] = useState(CanvasCalculator.init(affiliates));
   const [intervalHandle, setIntervalHandle] = useState(-1);
 
   const { activeAff, setActiveAff } = useContext(AffContext);
@@ -19,34 +19,35 @@ export const Canvas: FC<CanvasProps> = () => {
 
   useEffect(() => {
     if (activeAff === -1) {
-      affDeHover();
+      clearAnim();
     }
     else {
-      affHover(activeAff);
+      startAnim();
     }
   }, [activeAff])
 
   useEffect(() => {
+    updateWo();
 
   }, [wo]);
 
-  const affHover = (affId: number) => {
+  const startAnim = () => {
     window.clearInterval(intervalHandle);
-    const aff = affiliates.list[affId];
     setIntervalHandle(window.setInterval(() => {
-      CanvasRenderer.updateAff(aff);
-      let paramss = CanvasRenderer.init(affiliates)
-      paramss = CanvasRenderer.affsFill(paramss, affiliates.list[affId]);
+      let paramss = CanvasCalculator.Calculate(affiliates, activeAff, wo)
       setHexParamss(paramss);
-    }, 300));
+    }, 150));
   }
-  const affDeHover = () => {
+  const clearAnim = () => {
     window.clearInterval(intervalHandle);
-    CanvasRenderer.resetAff();
-    let paramss = CanvasRenderer.init(affiliates)
+    let paramss = CanvasCalculator.Calculate(affiliates, -1, wo);
     setHexParamss(paramss);
   }
-  const updateWo = () => { }
+
+  const updateWo = () => {
+    let paramss = CanvasCalculator.Calculate(affiliates, activeAff, wo);
+    setHexParamss(paramss)
+  }
   return (
     <div className="container">
       <div className="honeycomb ">
@@ -55,9 +56,10 @@ export const Canvas: FC<CanvasProps> = () => {
             <div className={'column'}>
               {i.map((hexParam, index) =>
                 <Hexagon
-                  affs={hexParam.affs}
+                  aff={hexParam.aff}
                   col={hexParam.col}
                   row={hexParam.row}
+                  trade={hexParam.trade}
                   key={`${hexParam.col}.${hexParam.row}`}
                   setAff={(affId) => setActiveAff(affId)}
                   unsetAff={(affId) => setActiveAff(-1)}

@@ -1,10 +1,12 @@
 import { P, Trade } from "../../models/types";
+import { Wo } from "../../models/wo";
 import { CardType } from "../sided/sidedRenderer";
 
 export type HexParams = {
-    affs: HexAff[];
+    aff: HexAff | undefined;
     col: number;
     row: number;
+    trade: Trade | undefined;
 }
 
 export type SidedAff = {
@@ -17,9 +19,10 @@ export type SidedAff = {
 
 //used by Hexagon.tsx
 export type HexProps = {
-    affs: HexAff[];
+    aff: HexAff | undefined;
     col: number;
-    row: number
+    row: number;
+    trade: Trade | undefined;
     setAff(aff: number): any;
     unsetAff(aff: number): any;
     updateWo(p: P, trade: Trade): any;

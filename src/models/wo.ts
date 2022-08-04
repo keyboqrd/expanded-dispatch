@@ -2,9 +2,9 @@ import { affiliates } from "./affiliate";
 import { P, Trade } from "./types";
 
 export type Wo = {
-    p: P;
-    trade: Trade;
-} | undefined;
+    p: P | undefined;
+    trade: Trade | undefined;
+};
 
 export type WoAff = {
     hasServiced12Mo: boolean;
@@ -21,8 +21,8 @@ export abstract class WoCalculator {
         if (wo !== undefined) {
             affiliates.list.forEach(aff => {
                 let woAff: WoAff;
-                if (aff.Wo12Mo.includes(wo.p))
-                    if (aff.Trades.includes(wo.trade)) {
+                if (wo.p !== undefined && aff.Wo12Mo.includes(wo.p))
+                    if (wo.trade !== undefined && aff.Trades.includes(wo.trade)) {
 
                     }
             });
