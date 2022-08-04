@@ -20,6 +20,7 @@ export abstract class CanvasCalculator {
         else {
             CanvasCalculator.resetAff();
         }
+
         if (wo.p !== undefined) {
             paramss[wo.p.col][wo.p.row].trade = wo.trade
         }
@@ -66,7 +67,8 @@ export abstract class CanvasCalculator {
             aff.Areas.forEach(area => {
                 let col = area.p.col;
                 let row = area.p.row;
-                if (area.step === this.affCurSteps[aff.Id]) {
+                if (area.step === 0) { // center do nothing
+                } else if (area.step === this.affCurSteps[aff.Id]) {
                     params[col][row].aff = { affId: aff.Id, hexType: HexType.affIllumed };
                 } else {
                     params[col][row].aff = { affId: aff.Id, hexType: HexType.affOthered };

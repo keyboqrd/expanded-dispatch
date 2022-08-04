@@ -11,20 +11,31 @@ export class HexagonInner extends React.Component<HexParams>{
         );
     }
     private getContent = (aff: HexAff | undefined, trade: Trade | undefined) => {
-        if (aff?.hexType !== undefined && aff.hexType === HexType.plain) {
-            return (
-                <>
-                    <strong>Hello!</strong>
-                    <small>"ddduh"</small>
-                </>);
-        }
-        if (aff?.hexType === HexType.affCenter) {
+        if (aff !== undefined && aff.hexType === HexType.affCenter) {
             return this.getAffContent(aff);
         }
+        if (aff !== undefined && aff.hexType === HexType.plain) {
+
+        }
+        if (trade === undefined || trade === Trade.NotYet) {
+            return (this.getWoCreateContent())
+        }
+    }
+    private getWoCreateContent = () => {
+        return (
+            <>
+                <strong>Click to select location</strong>
+            </>);
     }
 
-    private getWoContent = () => {
-
+    private getWoClickedContent = () => {
+        return (
+            <>
+                <strong>Select a trade to create WO</strong>
+                <small><a>HVAC</a></small>
+                <small><a>Flooring</a></small>
+                <small><a>Pool</a></small>
+            </>);
     }
 
 

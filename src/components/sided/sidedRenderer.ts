@@ -21,7 +21,6 @@ export abstract class SidedRenderer {
     public static updateAff(affiliates: Affiliates, affId: number) {
         return affiliates.list.map(aff => {
             const type = aff.Id === affId ? CardType.highlighted : CardType.plain;
-            console.log(type);
             return {
                 affId: aff.Id,
                 name: aff.Name,
