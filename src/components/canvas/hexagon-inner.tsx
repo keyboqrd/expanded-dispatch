@@ -5,9 +5,12 @@ import { HexAff, HexParams, HexType, InnerParams } from "./models";
 export class HexagonInner extends React.Component<HexParams>{
     render(): React.ReactNode {
         return (
-            <span className="content">
+            <div className="content"
+                onMouseEnter={() => {
+                    console.log(`Content hover?: ${this.props.col} ${this.props.row}`)
+                }}>
                 {this.getContent(this.props.aff, this.props.trade)}
-            </span>
+            </div>
         );
     }
     private getContent = (aff: HexAff | undefined, trade: Trade | undefined) => {
