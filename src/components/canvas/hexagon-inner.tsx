@@ -1,49 +1,63 @@
-import React from "react";
+import React, { FC, useContext } from "react";
+import { WoContext } from "../..";
 import { Trade } from "../../models/types";
-import { HexAff, HexParams, HexType, InnerParams } from "./models";
+import { HexAff, HexParams, HexType } from "./models";
 
-export class HexagonInner extends React.Component<HexParams>{
-    render(): React.ReactNode {
-        return (
-            <div className="content"
-                onMouseEnter={() => {
-                    console.log(`Content hover?: ${this.props.col} ${this.props.row}`)
-                }}>
-                {this.getContent(this.props.aff, this.props.trade)}
-            </div>
-        );
-    }
-    private getContent = (aff: HexAff | undefined, trade: Trade | undefined) => {
-        if (aff !== undefined && aff.hexType === HexType.affCenter) {
-            return this.getAffContent(aff);
+export const HexagonInner: FC<HexParams> = (props) => {
+    const { wo, setWo } = useContext(WoContext);
+
+
+    const getContent = (aff: HexAff | undefined) => {
+        if (aff !== undefined && (aff.hexType === HexType.affCenter)) {
+            return getAffContent(aff);
         }
         if (aff !== undefined && aff.hexType === HexType.plain) {
 
         }
-        if (trade === undefined || trade === Trade.NotYet) {
-            return (this.getWoCreateContent())
+
+        const trade = wo.p !== undefined && wo.p.col === props.col && wo.p.row === props.row ?
+            wo.trade : undefined;
+        switch (trade) {
+            case undefined:
+                return getWoCreateContent();
+            case Trade.NotYet:
+                return getWoClickedContent();
+            default:
+                return getTradeSelectedContent();
+
+
         }
     }
-    private getWoCreateContent = () => {
+
+    const getWoCreateContent = () => {
         return (
             <>
-                <strong>Click to select location</strong>
+                <strong>Click to select new WO location</strong>
             </>);
     }
 
-    private getWoClickedContent = () => {
+    let trades: string[] = [];
+    for (let trade in Trade) {
+        trades.push(trade);
+    }
+
+    const getWoClickedContent = () => {
         return (
             <>
                 <strong>Select a trade to create WO</strong>
-                <small><a>HVAC</a></small>
-                <small><a>Flooring</a></small>
-                <small><a>Pool</a></small>
+                <>
+                    {Object.keys(Trade).filter(key => Number(key) > 0).map(x => Number(x)).map(t =>
+                        <small
+                            key={t}
+                            onClick={() => selectTrade(t)}>
+                            {Trade[t]}
+                        </small>
+                    )}
+                </>
             </>);
     }
 
-
-
-    private getAffContent = (aff: HexAff) => {
+    const getAffContent = (aff: HexAff) => {
         return (
             <>
                 <strong>Affiliate</strong>
@@ -51,4 +65,28 @@ export class HexagonInner extends React.Component<HexParams>{
             </>);
     }
 
+    const getTradeSelectedContent = () => {
+        return (
+            <>
+                <strong>WO Created</strong>
+                <small>
+                    {wo.trade === undefined ? '' : Trade[wo.trade]}
+                </small>
+            </>
+        );
+    }
+
+    const selectTrade = (t: number) => {
+        setWo(wo.p, t);
+        //console.log(wo.trade);
+    }
+
+    return (
+        <div className="content"
+            onMouseEnter={() => {
+                //console.log(`Content hover?: ${props.col} ${props.row}`)
+            }}>
+            {getContent(props.aff)}
+        </div>
+    );
 }

@@ -9,12 +9,19 @@ import { createContext, useContext } from "react"
 import { Wo } from "./models/wo";
 import { P, Trade } from "./models/types";
 
-export type AffContent = {
-    activeAff: number
-    setActiveAff: (i: number) => void
+
+export type ActiveAff = {
+    id: number,
+    clicked: boolean
 }
+
+export type AffContent = {
+    activeAff: ActiveAff
+    setActiveAff: (i: number, clicked: boolean) => void
+}
+
 export const AffContext = createContext<AffContent>({
-    activeAff: -1,
+    activeAff: { id: -1, clicked: false },
     setActiveAff: () => { },
 })
 
@@ -40,7 +47,7 @@ class App extends React.Component<any, AppProp> {
         super(props);
         this.state = {
             affContext: {
-                activeAff: -1,
+                activeAff: { id: -1, clicked: false },
                 setActiveAff: this.setActiveAff
             },
             woContext: {
@@ -50,9 +57,9 @@ class App extends React.Component<any, AppProp> {
         };
     }
 
-    private setActiveAff = (i: number) => {
+    private setActiveAff = (i: number, clicked: boolean) => {
         const affContext = { ...this.state.affContext };
-        affContext.activeAff = i;
+        affContext.activeAff = { id: i, clicked: clicked };
         this.setState({ affContext });
     }
 

@@ -1,3 +1,4 @@
+import { count } from "console";
 import { Trade, P, Dir1, Dir2 } from "./types";
 import { Utils } from "./utils";
 
@@ -9,36 +10,37 @@ export class Affiliate {
         name: string,
         center: P,
         trades: Trade[],
-        serviced: P[],
-        radius: number = 3,
-        wo12Mo: P[],
-        wo24Mo: P[],
+        tieringRadius: number = 3,
+        servicingRadius: number = 5,
+        wo12MoCRs: { c: P, r: number }[],
     ) {
         this.Id = id;
         this.Name = name;
         this.Center = center;
         this.Trades = trades;
-        this.Radius = radius;
-        this.Areas = this.calculateAreas();
-        this.Serviced = serviced;
-        this.Wo12Mo = wo12Mo;
-        this.Wo24Mo = wo24Mo;
+        this.TieringRadius = tieringRadius;
+        this.TieringAreas = this.calculateAreas(this.Center, this.TieringRadius);
+        this.ServicingRadius = servicingRadius;
+        this.ServicingAreas = this.calculateAreas(this.Center, this.ServicingRadius).map(x => x.p);
+
+        this.Wo12MoCRs = wo12MoCRs;
+        this.Wo12Mo = this.calculateWo12Mo();
     }
     Id: number;
     Name: string;
     Center: P;
     Trades: Trade[];
-    Radius: number;
-    Areas: { p: P, step: number }[];
-    Serviced: P[];
-    Wo12Mo: P[];
-    Wo24Mo: P[];
+    TieringRadius: number;
+    TieringAreas: { p: P, step: number }[];
+    ServicingRadius: number;
+    ServicingAreas: P[];
+    Wo12MoCRs: { c: P, r: number }[];
+    Wo12Mo: Record<string, number>;
 
-    private calculateAreas(): { p: P, step: number }[] {
+    private calculateAreas = (c: P, r: number): { p: P, step: number }[] => {
         let result: { p: P, step: number }[] = [];
-        const r = this.Radius;
         let cursor = 0;
-        result.push({ p: this.Center, step: 0 });
+        result.push({ p: c, step: 0 });
         while (cursor < result.length) {
             let i = result[cursor];
             if (i.step < r) {
@@ -62,15 +64,32 @@ export class Affiliate {
         return result;
     }
 
+    private calculateWo12Mo = (): Record<string, number> => {
+        let result: Record<string, number> = {};
+        this.Wo12MoCRs.forEach(cr => {
+            let areas = this.calculateAreas(cr.c, cr.r)
+                .map(x => {
+                    return {
+                        p: `${x.p.col},${x.p.row}`,
+                        count: Math.floor(Math.random() * 10)
+                    }
+                });
+            areas.forEach(a => {
+                result[a.p] = a.count;
+            })
+        });
+        return result;
+
+    }
 }
 
 export class Affiliates {
     constructor() {
         this._list.push(
-            new Affiliate(0, 'AAA', { col: 3, row: 3 }, [Trade.HVAC], [], 3, [], []),
-            new Affiliate(1, 'BBB', { col: 9, row: 6 }, [Trade.Flooring], [], 4, [], []),
-            new Affiliate(2, 'CCC', { col: 12, row: 2 }, [Trade.Pool], [], 3, [], []),
-            new Affiliate(3, 'DDD', { col: 6, row: 1 }, [Trade.Pool], [], 2, [], [])
+            new Affiliate(0, 'ABA', { col: 3, row: 3 }, [Trade.HVAC], 3, 5, []),
+            new Affiliate(1, 'BBA', { col: 9, row: 6 }, [Trade.Flooring], 3, 5, []),
+            new Affiliate(2, 'CCC', { col: 12, row: 2 }, [Trade.Pool], 3, 5, []),
+            new Affiliate(3, 'DED', { col: 6, row: 1 }, [Trade.Pool], 3, 5, [])
         );
     }
     public get list(): Affiliate[] { return this._list; }

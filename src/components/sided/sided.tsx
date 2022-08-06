@@ -1,38 +1,35 @@
 import React, { FC, useContext, useEffect, useState } from "react";
-import { AffContext } from "../..";
+import { AffContext, WoContext } from "../..";
 import { affiliates } from "../../models/affiliate";
+import { Trade } from "../../models/types";
+import { WoCalculator } from "../../models/wo";
 import { Card } from "./card";
-import { SidedRenderer } from "./sidedRenderer";
 
 type SidedProps = {}
 
 
 export const Sided: FC<SidedProps> = () => {
-    const [sidedAffs, setSidedAffs] = useState(SidedRenderer.init(affiliates));
-    const [hoveredAff, setHoveredAff] = useState(-1);
+    //const [hoveredAff, setHoveredAff] = useState(-1);
     const { activeAff, setActiveAff } = useContext(AffContext);
+    const { wo, setWo } = useContext(WoContext);
 
-    useEffect(() => {
-        activeAffChanged(activeAff);
-    }, [activeAff])
 
-    const activeAffChanged = (affId: number) => {
-        if (affId === -1 || affId === hoveredAff) {
-            setSidedAffs(SidedRenderer.init(affiliates));
-            setHoveredAff(-1);
-        }
-        else {
-            setSidedAffs(SidedRenderer.updateAff(affiliates, affId));
-            setHoveredAff(affId);
+    const ReorderAffList = () => {
+        if (wo.p === undefined || wo.trade === undefined || wo.trade === Trade.NotYet) {
+            return affiliates.list;
+        } else {
+            const woAffs = WoCalculator.GetAffs(wo);
+            return woAffs.map(x => affiliates.list.find(i => i.Id === x.id));
         }
     }
+
+
     return (
         <div className="sided">
-            {sidedAffs.map((aff, affId) =>
-                <Card aff={aff}
-                    updateAff={(affId) => {
-                        setActiveAff(affId);
-                    }} />
+            {ReorderAffList().map((aff, i) =>
+                <Card affId={aff!.Id}
+                    key={i}
+                />
             )}
         </div>
     )

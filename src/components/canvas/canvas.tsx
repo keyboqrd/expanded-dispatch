@@ -18,7 +18,7 @@ export const Canvas: FC<CanvasProps> = () => {
 
 
   useEffect(() => {
-    if (activeAff === -1) {
+    if (activeAff.id === -1) {
       clearAnim();
     }
     else {
@@ -34,10 +34,11 @@ export const Canvas: FC<CanvasProps> = () => {
   const startAnim = () => {
     window.clearInterval(intervalHandle);
     setIntervalHandle(window.setInterval(() => {
-      let paramss = CanvasCalculator.Calculate(affiliates, activeAff, wo)
+      let paramss = CanvasCalculator.Calculate(affiliates, activeAff.id, wo)
       setHexParamss(paramss);
     }, 150));
   }
+
   const clearAnim = () => {
     window.clearInterval(intervalHandle);
     let paramss = CanvasCalculator.Calculate(affiliates, -1, wo);
@@ -45,24 +46,25 @@ export const Canvas: FC<CanvasProps> = () => {
   }
 
   const updateWo = () => {
-    let paramss = CanvasCalculator.Calculate(affiliates, activeAff, wo);
+    let paramss = CanvasCalculator.Calculate(affiliates, activeAff.id, wo);
     setHexParamss(paramss)
   }
   return (
     <div className="container">
       <div className="honeycomb ">
         <>
-          {hexParamss.map((i, key) =>
-            <div className={'column'}>
-              {i.map((hexParam, index) =>
+          {hexParamss.map((p, i) =>
+            <div className={'column'}
+              key={i}>
+              {p.map((hexParam, j) =>
                 <Hexagon
                   aff={hexParam.aff}
                   col={hexParam.col}
                   row={hexParam.row}
-                  trade={hexParam.trade}
+                  //trade={hexParam.trade}
                   key={`${hexParam.col}.${hexParam.row}`}
-                  setAff={(affId) => setActiveAff(affId)}
-                  unsetAff={(affId) => setActiveAff(-1)}
+                  setAff={(affId) => setActiveAff(affId, activeAff.clicked )}
+                  unsetAff={() => setActiveAff(-1, false)}
                   updateWo={updateWo}
                 />)}
             </div>)}
