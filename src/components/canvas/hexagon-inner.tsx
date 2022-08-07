@@ -61,21 +61,22 @@ export const HexagonInner: FC<HexParams> = (props) => {
         return (
             <>
                 <strong>{x.Name}</strong>
-                <small className="small-left">Trades:&nbsp;
-                    {x.Trades.map(t => Trade[t]).join(', ')}
+                <small className="small-left">Tier / ZipCode 的 Trades:&nbsp;
+                    <b>{x.Trades.map(t => Trade[t]).join(', ')}</b>
                 </small>
+                <br />
                 <small className={`small-left aff-center-icon-${aff.affId}`}>
-                    <div className={`small-hex-${aff.affId}`}></div><span> : Tiered area</span>
+                    <div className={`small-hex-${aff.affId}`}></div><span> : 该 Trade 下有 Tier 值的区域范围</span>
                 </small>
                 <small className={`small-left aff-center-icon-${aff.affId}`}>
                     <div className={`small-outer-hex-${aff.affId}`}></div>
                     <div className={`small-inner-hex-${aff.affId}`}></div>
                     /&nbsp;
                     <div className={`small-hex-${aff.affId}`}></div>
-                    <span> : Has zip code turned-on area</span>
+                    <span> : 该 Trade 下 Zip Code 开启的区域范围</span>
                 </small>
                 <small className={`small-left aff-center-icon-${aff.affId}`}>
-                    <span><i className="wo-count">n</i> : Historical WO count</span>
+                    <span><i className="wo-count">n</i> : 该 Trade 下 Location 历史 WO 数量</span>
                 </small>
 
             </>);

@@ -40,7 +40,7 @@ export const Card: FC<CardProps> = (props) => {
         switch (props.reason) {
             case Reason.Recommended:
                 return <>
-                    <small className="card-badge-1">Recommended: </small>
+                    <small className="card-badge-1">Recommended: (不属于 Expanded Dispatch)</small>
                     <small className="card-badge-4">Tiered in this market for this trade</small>
                 </>;
             case Reason.LocWo12Mo:

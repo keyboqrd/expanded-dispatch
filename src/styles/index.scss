@@ -1,7 +1,7 @@
 $hexagon-aff-colors: #ffbc06, #00ff6a, #00d9ff, #ff00b7, #2200ff;
 
 body {
-    background-color:  #171d25;
+    background-color: #171d25;
     font-family: Verdana, sans-serif;
     line-height: 1.1;
 }
@@ -21,4 +21,14 @@ body {
         flex-wrap: wrap;
         justify-content: center;
     }
+}
+
+.exclamation {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    padding: 15px 15px 15px 15px;
+    background-color: rgba(204, 204, 204, 0.8);
+    border-radius: 8px;
+    color: #eeeeee;
 }

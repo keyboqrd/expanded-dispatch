@@ -76,6 +76,15 @@ class App extends React.Component<any, AppProp> {
                     <WoContext.Provider value={this.state.woContext}>
                         <Canvas />
                         <Sided />
+                        <div className="exclamation">
+                            对于一个WO，能进入 Expanded Dispatch 的 Affiliate 首先要满足的前提条件：
+                            <ul>
+                                <li>配置了服务该 WO 的州</li>
+                                <li>配置了服务该 WO 的 Trade</li>
+                                <li>配置了服务该 WO 的 Client</li>
+                            </ul>
+                            假定本 DEMO 中所有 Affiliate 都满足以上条件
+                        </div>
                     </WoContext.Provider>
                 </AffContext.Provider>
             </React.StrictMode>

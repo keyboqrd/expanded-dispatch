@@ -72,7 +72,7 @@ $panel-color: #cccccccc;
 
         .content {
           @include opacity(1);
-          @include transform(rotateX(-90deg) translateX(-50%) translateX(18px) translateZ(-80px) translateY(-50px));
+          @include transform(rotateX(-90deg) translateX(-50%) translateX(18px) translateZ(-80px) translateY(-70px));
           background-color: $panel-color;
         }
       }
@@ -115,7 +115,7 @@ $panel-color: #cccccccc;
         //width: 200px;
         @include opacity(0);
         @include transition(all .3s ease-out .1s);
-        @include transform(rotateX(-90deg) translateX(-50%) translateX(18px) translateZ(-80px) translateY(-40px));
+        @include transform(rotateX(-90deg) translateX(-50%) translateX(18px) translateZ(-80px) translateY(-70px));
         -webkit-font-smoothing: antialiased;
         padding: 10px;
         border-radius: 5px;
