@@ -109,7 +109,6 @@ export abstract class WoCalculator {
 
         result.forEach(x => {
             if (x.reason !== Reason.Recommended && !(x.hasWo12Mo)) {
-                console.log(`//////////////// ${x.id} ///////////////// ${x.hasWo12Mo}`)
                 x.reason = x.reason! + 10;
             }
         });

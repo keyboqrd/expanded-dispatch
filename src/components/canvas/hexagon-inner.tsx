@@ -31,7 +31,7 @@ export const HexagonInner: FC<HexParams> = (props) => {
     const getWoCreateContent = () => {
         return (
             <>
-                <strong>Click to select new WO location</strong>
+                <strong>选择新WO的Location</strong>
             </>);
     }
 
@@ -43,7 +43,7 @@ export const HexagonInner: FC<HexParams> = (props) => {
     const getWoClickedContent = () => {
         return (
             <>
-                <strong>Select a trade to create WO</strong>
+                <strong>选择Trade以创建WO</strong>
                 <>
                     {Object.keys(Trade).filter(key => Number(key) > 0).map(x => Number(x)).map(t =>
                         <small className="trade-selector"
@@ -84,9 +84,9 @@ export const HexagonInner: FC<HexParams> = (props) => {
     const getTradeSelectedContent = () => {
         return (
             <>
-                <strong>WO Created</strong>
+                <strong>WO已创建</strong>
                 <small>
-                    {wo.trade === undefined ? '' : Trade[wo.trade]}
+                    Trade: {wo.trade === undefined ? '' : Trade[wo.trade]}
                 </small>
             </>
         );
