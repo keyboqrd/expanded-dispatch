@@ -88,7 +88,7 @@ export class Affiliates {
         this._list.push(
 
             new Affiliate(0,
-                'Air Guys',
+                'Air-Borne Inc',
                 { col: 3, row: 3 },
                 [Trade.HVAC],
                 2, 4,
@@ -108,13 +108,13 @@ export class Affiliates {
                 [Trade.HVAC, Trade.Flooring, Trade.Pool], 2, 4,
                 [{ c: { col: 14, row: 3 }, r: 1 }]),
 
-            new Affiliate(3, 'Pooling Co.,Ltd',
+            new Affiliate(3, 'Drunken Quahog Co.,Ltd',
                 { col: 6, row: 1 },
                 [Trade.Pool],
                 2, 4,
                 [{ c: { col: 4, row: 1 }, r: 1 }]),
 
-            new Affiliate(4, 'No Tier Aff',
+            new Affiliate(4, 'Pooling & Flooring but No Tier Company',
                 { col: 2, row: 7 },
                 [Trade.Pool, Trade.Flooring],
                 0, 3,

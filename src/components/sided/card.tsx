@@ -36,96 +36,93 @@ export const Card: FC<CardProps> = (props) => {
             setActiveAff(props.affId, true);
         }
     }
+
+    const getMethod = () => {
+        if (props.reason === Reason.Recommended) {
+            return <small className="card-badge-1">Recommended: (不属于 Expanded Dispatch)</small>
+        } else if (props.reason === undefined) {
+            return <></>
+        } else {
+            return <small className="card-badge-2">Expanded Dispatch: </small>
+        }
+    }
+
     const getReason = () => {
         switch (props.reason) {
             case Reason.Recommended:
                 return <>
-                    <small className="card-badge-1">Recommended: (不属于 Expanded Dispatch)</small>
-                    <small className="card-badge-4">Tiered in this market for this trade</small>
+                    <small className="card-badge-4">&bull; Tiered in this market for this trade</small>
                 </>;
             case Reason.LocWo12Mo:
                 return <>
-                    <small className="card-badge-2">Expanded Dispatch: </small>
-                    <small className="card-badge-3">Serviced location last 12 Month</small>
+                    <small className="card-badge-3">&bull; Serviced location last 12 Month</small>
                 </>;
             case Reason.ElsewhereThisTradeZipOn:
                 return <>
-                    <small className="card-badge-2">Expanded Dispatch: </small>
-                    <small className="card-badge-4">Tiered at another market for this trade</small>
-                    <small className="card-badge-5">Zip code for this trade turned-on</small>
+                    <small className="card-badge-4">&bull; Tiered at another market for this trade</small>
+                    <small className="card-badge-5">&bull; Zip code for this trade turned-on</small>
                 </>;
             case Reason.ElsewhereThisTradeZipOff:
                 return <>
-                    <small className="card-badge-2">Expanded Dispatch: </small>
-                    <small className="card-badge-4">Tiered at another market for this trade</small>
-                    <small className="card-badge-5">Zip code for this trade turned-off</small>
+                    <small className="card-badge-4">&bull; Tiered at another market for this trade</small>
+                    <small className="card-badge-5">&bull; Zip code for this trade turned-off</small>
                 </>;
             case Reason.ElsewhereOtherTradeZipOn:
                 return <>
-                    <small className="card-badge-2">Expanded Dispatch: </small>
-                    <small className="card-badge-4">Tiered at this/another market for another trade</small>
-                    <small className="card-badge-5">Zip code for this trade turned-on</small>
+                    <small className="card-badge-4">&bull; Tiered at this/another market for another trade</small>
+                    <small className="card-badge-5">&bull; Zip code for this trade turned-on</small>
                 </>;
             case Reason.ElsewhereOtherTradeZipOff:
                 return <>
-                    <small className="card-badge-2">Expanded Dispatch: </small>
-                    <small className="card-badge-4">Tiered at this/another market for another trade</small>
-                    <small className="card-badge-5">Zip code for this trade turned-off</small>
+                    <small className="card-badge-4">&bull; Tiered at this/another market for another trade</small>
+                    <small className="card-badge-5">&bull; Zip code for this trade turned-off</small>
                 </>;
             case Reason.NoTierZipOn:
                 return <>
-                    <small className="card-badge-2">Expanded Dispatch: </small>
-                    <small className="card-badge-4">Not tiered anywhere</small>
-                    <small className="card-badge-5">Zip code for this trade turned-on</small>
+                    <small className="card-badge-4">&bull; Not tiered anywhere</small>
+                    <small className="card-badge-5">&bull; Zip code for this trade turned-on</small>
                 </>;
             case Reason.NoTierZipOff:
                 return <>
-                    <small className="card-badge-2">Expanded Dispatch: </small>
-                    <small className="card-badge-4">Not tiered anywhere</small>
-                    <small className="card-badge-5">Zip code for this trade turned-off</small>
+                    <small className="card-badge-4">&bull; Not tiered anywhere</small>
+                    <small className="card-badge-5">&bull; Zip code for this trade turned-off</small>
                 </>;
 
             case Reason._ElsewhereThisTradeZipOn_:
                 return <>
-                    <small className="card-badge-2">Expanded Dispatch: </small>
-                    <small className="card-badge-4">Tiered at another market for this trade</small>
-                    <small className="card-badge-5">Zip code for this trade turned-on</small>
-                    <small className="card-badge-6">Hasn't worked for this trade in the last year</small>
+                    <small className="card-badge-4">&bull; Tiered at another market for this trade</small>
+                    <small className="card-badge-5">&bull; Zip code for this trade turned-on</small>
+                    <small className="card-badge-6">&bull; Hasn't worked for this trade in the last year</small>
                 </>;
             case Reason._ElsewhereThisTradeZipOff_:
                 return <>
-                    <small className="card-badge-2">Expanded Dispatch: </small>
-                    <small className="card-badge-4">Tiered at another market for this trade</small>
-                    <small className="card-badge-5">Zip code for this trade turned-off</small>
-                    <small className="card-badge-6">Hasn't worked for this trade in the last year</small>
+                    <small className="card-badge-4">&bull; Tiered at another market for this trade</small>
+                    <small className="card-badge-5">&bull; Zip code for this trade turned-off</small>
+                    <small className="card-badge-6">&bull; Hasn't worked for this trade in the last year</small>
                 </>;
             case Reason._ElsewhereOtherTradeZipOn_:
                 return <>
-                    <small className="card-badge-2">Expanded Dispatch: </small>
-                    <small className="card-badge-4">Tiered at this/another market for another trade</small>
-                    <small className="card-badge-5">Zip code for this trade turned-on</small>
-                    <small className="card-badge-6">Hasn't worked for this trade in the last year</small>
+                    <small className="card-badge-4">&bull; Tiered at this/another market for another trade</small>
+                    <small className="card-badge-5">&bull; Zip code for this trade turned-on</small>
+                    <small className="card-badge-6">&bull; Hasn't worked for this trade in the last year</small>
                 </>;
             case Reason._ElsewhereOtherTradeZipOff_:
                 return <>
-                    <small className="card-badge-2">Expanded Dispatch: </small>
-                    <small className="card-badge-4">Tiered at this/another market for another trade</small>
-                    <small className="card-badge-5">Zip code for this trade turned-off</small>
-                    <small className="card-badge-6">Hasn't worked for this trade in the last year</small>
+                    <small className="card-badge-4">&bull; Tiered at this/another market for another trade</small>
+                    <small className="card-badge-5">&bull; Zip code for this trade turned-off</small>
+                    <small className="card-badge-6">&bull; Hasn't worked for this trade in the last year</small>
                 </>;
             case Reason._NoTierZipOn_:
                 return <>
-                    <small className="card-badge-2">Expanded Dispatch: </small>
-                    <small className="card-badge-4">Not tiered anywhere</small>
-                    <small className="card-badge-5">Zip code for this trade turned-on</small>
-                    <small className="card-badge-6">Hasn't worked for this trade in the last year</small>
+                    <small className="card-badge-4">&bull; Not tiered anywhere</small>
+                    <small className="card-badge-5">&bull; Zip code for this trade turned-on</small>
+                    <small className="card-badge-6">&bull; Hasn't worked for this trade in the last year</small>
                 </>;
             case Reason._NoTierZipOff_:
                 return <>
-                    <small className="card-badge-2">Expanded Dispatch: </small>
-                    <small className="card-badge-4">Not tiered anywhere</small>
-                    <small className="card-badge-5">Zip code for this trade turned-off</small>
-                    <small className="card-badge-6">Hasn't worked for this trade in the last year</small>
+                    <small className="card-badge-4">&bull; Not tiered anywhere</small>
+                    <small className="card-badge-5">&bull; Zip code for this trade turned-off</small>
+                    <small className="card-badge-6">&bull; Hasn't worked for this trade in the last year</small>
                 </>;
 
 
@@ -144,6 +141,7 @@ export const Card: FC<CardProps> = (props) => {
                 <div className="card-info">
                     <h1>{affiliates.list[props.affId].Name}</h1>
                     <p>
+                        {getMethod()}
                         {getReason()}
                     </p>
                 </div>

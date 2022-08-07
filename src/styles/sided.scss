@@ -101,7 +101,7 @@ div[class*="card-highlighted-"] {
 }
 
 .card-info {
-    padding: 20px;
+    padding: 10px 20px;
     bottom: 0;
     color: #fff;
     transform: translateY(40%);
@@ -141,9 +141,10 @@ div[class*="card-highlighted-"] {
 
 .card-info h1 {
     font-family: verdana, sans-serif;
-    font-size: 25px;
+    font-size: 22px;
     font-weight: 700;
     text-shadow: rgba(black, 0.5) 0 10px 10px;
+    margin: 5px;
 }
 
 .card-info p {
