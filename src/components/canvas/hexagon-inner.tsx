@@ -76,7 +76,7 @@ export const HexagonInner: FC<HexParams> = (props) => {
                     <span> : 该 Trade 下 Zip Code 开启的区域范围</span>
                 </small>
                 <small className={`small-left aff-center-icon-${aff.affId}`}>
-                    <span><i className="wo-count">n</i> : 该 Trade 下 Location 历史 WO 数量</span>
+                    <span><i className="wo-count">n</i> : 该 Trade 下 Location 近12个月 WO 数量</span>
                 </small>
 
             </>);
