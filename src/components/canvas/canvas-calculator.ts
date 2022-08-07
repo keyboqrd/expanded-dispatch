@@ -1,8 +1,9 @@
+import { ActiveAff } from "../..";
 import { Affiliate, Affiliates } from "../../models/affiliate";
 import { COLS, ROWS } from "../../models/consts";
 import { Trade } from "../../models/types";
 import { Wo } from "../../models/wo";
-import { HexAff, HexParams, HexType } from "./models";
+import { HexAff, HexParams, HexAffType } from "./models";
 
 export abstract class CanvasCalculator {
     public static affCurSteps: { [affId: number]: number } = {};
@@ -54,7 +55,7 @@ export abstract class CanvasCalculator {
         affs.list.forEach(aff => {
             params[aff.Center.col][aff.Center.row].aff = {
                 affId: aff.Id,
-                hexType: HexType.affCenter,
+                hexAffType: HexAffType.affCenter,
             };
         });
         return params;
@@ -69,18 +70,34 @@ export abstract class CanvasCalculator {
                 } else if (area.step === this.affCurSteps[aff.Id]) {
                     params[col][row].aff = {
                         affId: aff.Id,
-                        hexType: HexType.affIllumed,
+                        hexAffType: HexAffType.affIllumed,
                     };
                 } else {
                     params[col][row].aff = {
                         affId: aff.Id,
-                        hexType: HexType.affOthered,
+                        hexAffType: HexAffType.affOthered,
                     };
+                }
+            });
+            aff.ServicingAreas.forEach(area => {
+                let col = area.col;
+                let row = area.row;
+                if (params[col][row].aff === undefined) {
+                    params[col][row].aff = {
+                        affId: aff.Id,
+                        hexAffType: HexAffType.servicingOnly,
+                    }
                 }
             });
         }
         return params;
     }
 
+    public static getWoCount(affiliates: Affiliates, activeAff: ActiveAff, col: number, row: number) {
+        if (activeAff.id !== -1) {
+            return affiliates.list[activeAff.id].Wo12Mo.get(`${col},${row}`) ?? 0;
+        }
+        return 0;
+    }
 
 }

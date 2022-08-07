@@ -6,49 +6,51 @@ $returnEasing: cubic-bezier(0.445, 0.05, 0.55, 0.95);
 
 .card-wrap {
     margin: 10px;
-    transform: perspective(800px);
-    transform-style: preserve-3d;
+    //transform: perspective(800px);
+    //transform-style: preserve-3d;
     cursor: pointer;
     // background-color: #fff;
 
-    &:hover {
-        .card-info {
-            transform: translateY(0);
-        }
-
-        .card-info p {
-            opacity: 1;
-        }
-
-        .card-info,
-        .card-info p {
-            transition: 0.6s $hoverEasing;
-        }
-
-        .card-info:after {
-            transition: 5s $hoverEasing;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .card-bg {
-            transition:
-                0.6s $hoverEasing,
-                opacity 5s $hoverEasing;
-            opacity: 0.8;
-        }
-
-        .card,
-        div[class*="card-highlighted-"] {
-            transition:
-                0.6s $hoverEasing,
-                box-shadow 2s $hoverEasing;
-            box-shadow:
-                rgba(white, 1) 0 0 0 1px,
-                inset #333 0 0 0 5px,
-                inset white 0 0 0 6px;
-        }
+    //&:hover {
+    .card-info {
+        transform: translateY(0);
     }
+
+    .card-info p {
+        opacity: 1;
+    }
+
+    .card-info,
+    .card-info p {
+        transition: 0.6s $hoverEasing;
+    }
+
+    .card-info:after {
+        transition: 5s $hoverEasing;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .card-bg {
+        transition:
+            0.6s $hoverEasing,
+            opacity 5s $hoverEasing;
+        opacity: 0.8;
+    }
+
+    .card,
+    div[class*="card-no-hightlight-"]:hover,
+    div[class*="card-highlighted-"] {
+        transition:
+            0.6s $hoverEasing,
+            box-shadow 2s $hoverEasing;
+        box-shadow:
+            rgba(white, 1) 0 0 0 1px,
+            inset #333 0 0 0 5px,
+            inset white 0 0 0 6px;
+    }
+
+    //}
 }
 
 .card,
@@ -56,14 +58,13 @@ div[class*="card-highlighted-"] {
     position: relative;
     flex: 0 0 480px;
     width: 480px;
-    height: 160px;
+    height: 150px;
     overflow: hidden;
     border-radius: 10px;
     box-shadow:
         inset #333 0 0 0 5px,
         inset rgba(white, 0.5) 0 0 0 6px;
     transition: 1s $returnEasing;
-
 }
 
 .card {
@@ -72,6 +73,10 @@ div[class*="card-highlighted-"] {
 
 @for $i from 0 through 4 {
     .card-highlighted-#{$i} {
+        background-color: list.nth($hexagon-aff-colors, $i + 1);
+    }
+
+    .card-no-hightlight-#{$i}:hover {
         background-color: list.nth($hexagon-aff-colors, $i + 1);
     }
 }
@@ -101,6 +106,7 @@ div[class*="card-highlighted-"] {
     color: #fff;
     transform: translateY(40%);
     transition: 0.6s 1.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+    height: 100%;
 
     p {
         opacity: 0;
@@ -111,6 +117,10 @@ div[class*="card-highlighted-"] {
     * {
         position: relative;
         z-index: 1;
+    }
+
+    small {
+        display: block;
     }
 
     &:after {
@@ -130,8 +140,12 @@ div[class*="card-highlighted-"] {
 }
 
 .card-info h1 {
-    font-family: "Playfair Display";
-    font-size: 36px;
+    font-family: verdana, sans-serif;
+    font-size: 25px;
     font-weight: 700;
     text-shadow: rgba(black, 0.5) 0 10px 10px;
+}
+
+.card-info p {
+    font-family: verdana, sans-serif;
 }

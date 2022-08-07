@@ -10,8 +10,8 @@ export class Affiliate {
         name: string,
         center: P,
         trades: Trade[],
-        tieringRadius: number = 3,
-        servicingRadius: number = 5,
+        tieringRadius: number = 2,
+        servicingRadius: number = 4,
         wo12MoCRs: { c: P, r: number }[],
     ) {
         this.Id = id;
@@ -35,7 +35,7 @@ export class Affiliate {
     ServicingRadius: number;
     ServicingAreas: P[];
     Wo12MoCRs: { c: P, r: number }[];
-    Wo12Mo: Record<string, number>;
+    Wo12Mo: Map<string, number>;
 
     private calculateAreas = (c: P, r: number): { p: P, step: number }[] => {
         let result: { p: P, step: number }[] = [];
@@ -64,18 +64,18 @@ export class Affiliate {
         return result;
     }
 
-    private calculateWo12Mo = (): Record<string, number> => {
-        let result: Record<string, number> = {};
+    private calculateWo12Mo = (): Map<string, number> => {
+        let result: Map<string, number> = new Map<string, number>();
         this.Wo12MoCRs.forEach(cr => {
             let areas = this.calculateAreas(cr.c, cr.r)
                 .map(x => {
                     return {
                         p: `${x.p.col},${x.p.row}`,
-                        count: Math.floor(Math.random() * 10)
+                        count: Math.floor(Math.random() * 4) * 3
                     }
                 });
             areas.forEach(a => {
-                result[a.p] = a.count;
+                result.set(a.p, a.count);
             })
         });
         return result;
@@ -86,10 +86,39 @@ export class Affiliate {
 export class Affiliates {
     constructor() {
         this._list.push(
-            new Affiliate(0, 'ABA', { col: 3, row: 3 }, [Trade.HVAC], 3, 5, []),
-            new Affiliate(1, 'BBA', { col: 9, row: 6 }, [Trade.Flooring], 3, 5, []),
-            new Affiliate(2, 'CCC', { col: 12, row: 2 }, [Trade.Pool], 3, 5, []),
-            new Affiliate(3, 'DED', { col: 6, row: 1 }, [Trade.Pool], 3, 5, [])
+
+            new Affiliate(0,
+                'Air Guys',
+                { col: 3, row: 3 },
+                [Trade.HVAC],
+                2, 4,
+                [{ c: { col: 5, row: 5 }, r: 1 }]),
+
+            new Affiliate(1,
+                'Wiping the Floor Co.,Ltd',
+                { col: 9, row: 6 },
+                [Trade.Flooring],
+                0, 4,
+                [{ c: { col: 7, row: 6 }, r: 1 }]),
+
+
+            new Affiliate(2,
+                'Dunder Mifflin',
+                { col: 12, row: 2 },
+                [Trade.HVAC, Trade.Flooring, Trade.Pool], 2, 4,
+                [{ c: { col: 14, row: 3 }, r: 1 }]),
+
+            new Affiliate(3, 'Pooling Co.,Ltd',
+                { col: 6, row: 1 },
+                [Trade.Pool],
+                2, 4,
+                [{ c: { col: 4, row: 1 }, r: 1 }]),
+
+            new Affiliate(4, 'No Tier Aff',
+                { col: 2, row: 7 },
+                [Trade.Pool, Trade.Flooring],
+                0, 3,
+                [])
         );
     }
     public get list(): Affiliate[] { return this._list; }

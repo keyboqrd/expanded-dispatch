@@ -48,6 +48,8 @@ $panel-color: #cccccccc;
       @include opacity(0.85);
     }
 
+    @for $i from 0 through 4 {}
+
     .hex {
       display: block;
       position: relative;
@@ -95,21 +97,13 @@ $panel-color: #cccccccc;
           }
         }
 
-        @for $i from 0 through 4 {
-
-          .hex-aff-center-#{$i},
-          .hex-aff-illumed-#{$i},
-          .hex-aff-othered-#{$i} {
-            background: list.nth($hexagon-aff-colors, $i + 1);
-
-            &:before {
-              border-right-color: list.nth($hexagon-aff-colors, $i + 1);
-            }
-
-            &:after {
-              border-left-color: list.nth($hexagon-aff-colors, $i + 1);
-            }
-          }
+        small.wo-count {
+          position: absolute;
+          top: 20px;
+          left: 12px;
+          font-size: 18px;
+          color: slateblue;
+          font-weight: bolder;
         }
       }
 
@@ -128,7 +122,8 @@ $panel-color: #cccccccc;
 
         strong {
           display: block;
-          font: 600 25px/1.1 verdana, sans-serif;
+          font-weight: 600;
+          font-size: 25px;
           text-overflow: ellipsis;
           white-space: nowrap;
           text-shadow: -1px -1px 2px rgba(0, 0, 0, 0.8);
@@ -136,12 +131,83 @@ $panel-color: #cccccccc;
 
         small {
           display: block;
-          font: 20px/1.1 verdana, sans-serif;
+          font-size: 18px;
+          white-space: nowrap;
 
-          &:hover {
-            color: red;
+          &.trade-selector:hover {
+            color: slateblue;
           }
 
+        }
+
+        div[class*="small-hex-"],
+        div[class*="small-outer-hex-"] {
+          display: inline-block;
+          width: 9px;
+          height: 15px;
+          position: relative;
+
+          &:before,
+          &:after {
+            content: "";
+            position: relative;
+            float: left;
+            border-top: 7.5px solid transparent;
+            border-bottom: 7.5px solid transparent;
+          }
+        }
+
+        div[class*="small-inner-hex-"] {
+          display: inline-block;
+          width: 6px;
+          height: 10px;
+          position: relative;
+          left: -7.5px;
+          top: -2.5px;
+          background-color: #eeeeee;
+
+          &:before,
+          &:after {
+            content: "";
+            position: relative;
+            float: left;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+          }
+
+          &:before {
+            border-right: 3px solid #eeeeee;
+            left: -3px;
+          }
+
+          &:after {
+            border-left: 3px solid #eeeeee;
+            right: -3px;
+          }
+        }
+
+        i.wo-count {
+          font-size: 18px;
+          color: slateblue;
+          font-weight: bolder;
+        }
+
+        @for $i from 0 through 4 {
+
+          .small-hex-#{$i},
+          .small-outer-hex-#{$i} {
+            background-color: list.nth($hexagon-aff-colors, $i + 1);
+
+            &:before {
+              border-right: 4.5px solid list.nth($hexagon-aff-colors, $i + 1);
+              left: -4.5px
+            }
+
+            &:after {
+              border-left: 4.5px solid list.nth($hexagon-aff-colors, $i + 1);
+              right: -4.5px;
+            }
+          }
         }
       }
     }
@@ -153,8 +219,8 @@ $panel-color: #cccccccc;
       left: -15%;
       height: 130%;
       width: 130%;
-      @include background-image(radial-gradient(closest-side, rgba(23, 29, 37, 0), #171d25));
-      @include opacity(0.9);
+      @include background-image(radial-gradient(closest-side, rgba(71, 73, 77, 0), #171d25));
+      @include opacity(0.4);
       @include transform(translateZ(10px));
       pointer-events: none;
     }
@@ -189,6 +255,67 @@ $panel-color: #cccccccc;
 
   .aff {
     z-index: 30;
+  }
+
+  &.hex-aff-transparent {
+    background: transparent;
+
+    &:before {
+      border: none;
+    }
+
+    &::after {
+      border: none;
+    }
+  }
+
+  @for $i from 0 through 4 {
+
+    &.hex-aff-center-#{$i},
+    &.hex-aff-illumed-#{$i},
+    &.hex-aff-othered-#{$i} {
+      background: list.nth($hexagon-aff-colors, $i + 1);
+
+      &:before {
+        border-right-color: list.nth($hexagon-aff-colors, $i + 1);
+      }
+
+      &:after {
+        border-left-color: list.nth($hexagon-aff-colors, $i + 1);
+      }
+    }
+
+    &.hex-aff-servicing-#{$i} {
+      display: block;
+      position: absolute;
+      left: 6px; //3px;
+      top: 10px; //5px;
+      width: 24px; //30px;
+      height: 42px; //52px;
+      background: #eeeeee;
+
+      &:before,
+      &:after {
+        content: "";
+        position: relative;
+        float: left;
+        border-top: 21px solid transparent; //26px
+        border-bottom: 21px solid transparent; //26px
+      }
+
+
+      &:before {
+        border-right: 12px solid; //15
+        left: -12px;
+        border-right-color: #eeeeee;
+      }
+
+      &:after {
+        border-left: 12px solid;
+        right: -12px;
+        border-left-color: #eeeeee;
+      }
+    }
   }
 }
 

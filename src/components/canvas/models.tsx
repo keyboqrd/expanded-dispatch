@@ -19,15 +19,16 @@ export type HexProps = {
 
 export type HexAff = {
     affId: number;
-    hexType: HexType;
+    hexAffType: HexAffType;
 }
 
-export enum HexType {
+export enum HexAffType {
     //none = 1,
     plain = 2,
     affCenter = 3,
     affIllumed = 4,
     affOthered = 5,
+    servicingOnly = 6
 }
 
 export enum CanvasState {

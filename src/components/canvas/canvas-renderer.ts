@@ -1,18 +1,20 @@
 import { ActiveAff } from "../..";
 import { Trade } from "../../models/types";
 import { Wo } from "../../models/wo";
-import { HexAff, HexType } from "./models";
+import { HexAff, HexAffType } from "./models";
 
 export abstract class CanvasRenderer {
     public static getHexClasses = (col: number, row: number, aff: HexAff | undefined, wo: Wo, activeAff: ActiveAff): string => {
         let result = 'hex ';
         if (aff !== undefined) {
-            if (aff.hexType === HexType.affCenter && aff.affId === activeAff.id && activeAff.clicked) {
+            if (aff.hexAffType === HexAffType.affCenter && aff.affId === activeAff.id && activeAff.clicked) {
                 result += `hovered `;
-            } else if (aff.hexType === HexType.affIllumed) {
+            } else if (aff.hexAffType === HexAffType.affIllumed) {
                 result += `hex-aff-illumed-${aff.affId} `;
-            } else if (aff.hexType === HexType.affOthered) {
+            } else if (aff.hexAffType === HexAffType.affOthered) {
                 result += `hex-aff-othered-${aff.affId} `;
+            } else if (aff.hexAffType === HexAffType.servicingOnly) {
+                result += `hex-aff-servicing-${aff.affId} `;
             }
         }
 
@@ -22,24 +24,40 @@ export abstract class CanvasRenderer {
         return result;
     }
 
-    public static getWrapperClasses = (aff: HexAff | undefined): string => {
+    public static getWrappedClasses1 = (aff: HexAff | undefined): string => {
         let result = 'hexagon ';
         if (aff !== undefined) {
-            switch (aff.hexType) {
-                case HexType.plain:
+            switch (aff.hexAffType) {
+                case HexAffType.plain:
                     result += 'hex-color-plain ';
                     break;
-                case HexType.affCenter:
+                case HexAffType.affCenter:
 
                     result += `hex-aff-center-${aff.affId} `;
                     break;
-                case HexType.affIllumed:
+                case HexAffType.affIllumed:
                     result += `hex-aff-illumed-${aff.affId} `;
                     break;
-                case HexType.affOthered:
+                case HexAffType.affOthered:
+                case HexAffType.servicingOnly:
                     result += `hex-aff-othered-${aff.affId} `;
                     break;
                 default:
+                    break;
+            }
+        }
+        return result;
+    }
+
+    public static getWrappedClasses2 = (aff: HexAff | undefined): string => {
+        let result = 'hexagon ';
+        if (aff !== undefined) {
+            switch (aff.hexAffType) {
+                case HexAffType.servicingOnly:
+                    result += `hex-aff-servicing-${aff.affId} `;
+                    break;
+                default:
+                    result += `hex-aff-transparent `
                     break;
             }
         }

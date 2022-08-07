@@ -1,28 +1,30 @@
 import React, { FC, useContext, useState } from 'react';
 import { AffContext, WoContext } from '../..';
+import { affiliates } from '../../models/affiliate';
 import { Trade } from '../../models/types';
+import { CanvasCalculator } from './canvas-calculator';
 import { CanvasRenderer } from './canvas-renderer';
 import { HexagonInner } from './hexagon-inner';
-import { HexType, HexProps } from './models';
+import { HexAffType, HexProps } from './models';
 
 export const Hexagon: FC<HexProps> = (props) => {
     const { wo, setWo } = useContext(WoContext);
     const { activeAff, setActiveAff } = useContext(AffContext);
 
     const mouseEnter = () => {
-        if (props.aff !== undefined && props.aff.hexType === HexType.affCenter && !activeAff.clicked) {
+        if (props.aff !== undefined && props.aff.hexAffType === HexAffType.affCenter && !activeAff.clicked) {
             props.setAff(props.aff.affId);
         }
     }
 
     const mouseLeave = () => {
-        if (props.aff !== undefined && props.aff.hexType === HexType.affCenter && !activeAff.clicked) {
+        if (props.aff !== undefined && props.aff.hexAffType === HexAffType.affCenter && !activeAff.clicked) {
             props.unsetAff();
         }
     }
 
     const canSelectLocation = () => {
-        return props.aff === undefined || props.aff.hexType === HexType.plain || props.aff.hexType === HexType.affIllumed || props.aff.hexType === HexType.affOthered;
+        return props.aff === undefined || props.aff.hexAffType !== HexAffType.affCenter;
     }
     const otherLocationSelected = () => {
         return wo.p === undefined || wo.p.col !== props.col || wo.p.row !== props.row;
@@ -44,37 +46,38 @@ export const Hexagon: FC<HexProps> = (props) => {
         }
 
 
-        if (props.aff !== undefined && props.aff.hexType === HexType.affCenter && !activeAff.clicked) {
+        if (props.aff !== undefined && props.aff.hexAffType === HexAffType.affCenter && !activeAff.clicked) {
             props.setAff(props.aff.affId);
             setActiveAff(props.aff.affId, true);
         }
-        else if (props.aff !== undefined && props.aff.hexType === HexType.affCenter && activeAff.clicked && props.aff.affId === activeAff.id) {
+        else if (props.aff !== undefined && props.aff.hexAffType === HexAffType.affCenter && activeAff.clicked && props.aff.affId === activeAff.id) {
             props.unsetAff();
             setActiveAff(-1, false);
         }
-        else if (props.aff !== undefined && props.aff.hexType === HexType.affCenter && activeAff.clicked && props.aff.affId !== activeAff.id) {
+        else if (props.aff !== undefined && props.aff.hexAffType === HexAffType.affCenter && activeAff.clicked && props.aff.affId !== activeAff.id) {
             props.setAff(props.aff.affId);
             setActiveAff(props.aff.affId, true)
         }
     }
 
-    const createWo = () => {
-
-    }
-
     const outerClasses = CanvasRenderer.getHexClasses(props.col, props.row, props.aff, wo, activeAff);
-    const wrapperClasses = CanvasRenderer.getWrapperClasses(props.aff);
+    const wrappedClasses1 = CanvasRenderer.getWrappedClasses1(props.aff);
+    const wrappedClasses2 = CanvasRenderer.getWrappedClasses2(props.aff);
+    const woCount = CanvasCalculator.getWoCount(affiliates, activeAff, props.col, props.row);//affiliates.list[props.aff!.affId].Wo12Mo[`${props.col},${props.row}`]
     return (
         <a className={outerClasses}
             onMouseEnter={mouseEnter}
             onMouseLeave={mouseLeave}
             onClick={mouseClick}>
             <div className="wrapper">
-                <div className={wrapperClasses}></div>
+                <div className={wrappedClasses1}></div>
+                <div className={wrappedClasses2}></div>
+                {woCount === 0 ? `` : <small className='wo-count'>
+                    <i>{woCount}</i>
+                </small>}
             </div>
             <HexagonInner
                 aff={props.aff}
-                //trade={props.trade}
                 col={props.col}
                 row={props.row}
             />

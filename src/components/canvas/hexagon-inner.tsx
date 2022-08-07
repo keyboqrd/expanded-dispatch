@@ -1,17 +1,16 @@
 import React, { FC, useContext } from "react";
 import { WoContext } from "../..";
+import { affiliates } from "../../models/affiliate";
 import { Trade } from "../../models/types";
-import { HexAff, HexParams, HexType } from "./models";
+import { HexAff, HexParams, HexAffType } from "./models";
 
 export const HexagonInner: FC<HexParams> = (props) => {
     const { wo, setWo } = useContext(WoContext);
-
-
     const getContent = (aff: HexAff | undefined) => {
-        if (aff !== undefined && (aff.hexType === HexType.affCenter)) {
-            return getAffContent(aff);
+        if (aff !== undefined && (aff.hexAffType === HexAffType.affCenter)) {
+            return getAffCenterContent(aff);
         }
-        if (aff !== undefined && aff.hexType === HexType.plain) {
+        if (aff !== undefined && aff.hexAffType === HexAffType.plain) {
 
         }
 
@@ -47,7 +46,7 @@ export const HexagonInner: FC<HexParams> = (props) => {
                 <strong>Select a trade to create WO</strong>
                 <>
                     {Object.keys(Trade).filter(key => Number(key) > 0).map(x => Number(x)).map(t =>
-                        <small
+                        <small className="trade-selector"
                             key={t}
                             onClick={() => selectTrade(t)}>
                             {Trade[t]}
@@ -57,11 +56,28 @@ export const HexagonInner: FC<HexParams> = (props) => {
             </>);
     }
 
-    const getAffContent = (aff: HexAff) => {
+    const getAffCenterContent = (aff: HexAff) => {
+        const x = affiliates.list[aff.affId];
         return (
             <>
-                <strong>Affiliate</strong>
-                <small>{aff.affId}</small>
+                <strong>{x.Name}</strong>
+                <small className="small-left">Trades:&nbsp;
+                    {x.Trades.map(t => Trade[t]).join(', ')}
+                </small>
+                <small className={`small-left aff-center-icon-${aff.affId}`}>
+                    <div className={`small-hex-${aff.affId}`}></div><span> : Tiered area</span>
+                </small>
+                <small className={`small-left aff-center-icon-${aff.affId}`}>
+                    <div className={`small-outer-hex-${aff.affId}`}></div>
+                    <div className={`small-inner-hex-${aff.affId}`}></div>
+                    /&nbsp;
+                    <div className={`small-hex-${aff.affId}`}></div>
+                    <span> : Has zip code turned-on area</span>
+                </small>
+                <small className={`small-left aff-center-icon-${aff.affId}`}>
+                    <span><i className="wo-count">n</i> : Historical WO count</span>
+                </small>
+
             </>);
     }
 
